@@ -9,8 +9,8 @@ public class Admin extends User{
 	public void creatUser() {
 		Scanner s = new Scanner(System.in);
 		System.out.println("Gib einen Vorname, Nachnamen, Benutzername und Passwort ein");
-		User tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), User.id);
-		User.id++;
+		User tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), User.counterID);
+		User.counterID++;
 		Project.users.add(tmp);
 	}
 	

@@ -76,8 +76,8 @@ public class Project {
 	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
-		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362", User.id);
-		User grualea = new User("Alex", "Gruber", "grualea", "83f32", User.id);
+		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362", User.counterID);
+		User grualea = new User("Alex", "Gruber", "grualea", "83f32", User.counterID);
 		
 		
 		users.add(mosjula);
@@ -94,7 +94,7 @@ public class Project {
 			int auswahl = 1;
 			while(auswahl != 0) {
 				System.out.println("Was moechten Sie tun\n"
-						+ "\t1) \n"
+						+ "\t1) Meine Aufgaben ausgeben\n"
 						+ "\t2) \n"
 						+ "\t3) \n"
 						+ "\t4) ");
@@ -110,12 +110,17 @@ public class Project {
 				System.out.println("\t0) Ausloggen\nEingabe: ");
 				auswahl = scan.nextInt();
 				switch(auswahl) {
-					case 11: printUsers(); break;
-					case 12: ((Admin) currentUser).creatUser(); break;
-					case 13: ((Admin) currentUser).deleteUser(searchUser()); break;
-					case 14: ((Admin) currentUser).giveTask(searchUser()); break;
-					case 15: searchUser().printTask(); break;
-					case 16: printAllTasks(); break;
+					case 1: currentUser.printTask();
+				}
+				if(currentUser instanceof Admin) {
+					switch(auswahl) {
+						case 11: printUsers(); break;
+						case 12: ((Admin) currentUser).creatUser(); break;
+						case 13: ((Admin) currentUser).deleteUser(searchUser()); break;
+						case 14: ((Admin) currentUser).giveTask(searchUser()); break;
+						case 15: searchUser().printTask(); break;
+						case 16: printAllTasks(); break;
+					}
 				}
 			}
 		}

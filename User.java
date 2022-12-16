@@ -5,7 +5,8 @@ public class User {
 	private String surname;
 	private String username;
 	private String password;
-	public static int id = 1000; 
+	private int id;
+	public static int counterID = 1000; 
 	private ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
@@ -49,14 +50,14 @@ public class User {
 		this.password = password;
 	}
 	
-	public static int getId() {
+	public int getId() {
 		return id;
 	}
 
-	public static void setId(int id) {
-		User.id = id;
+	public void setId(int id) {
+		this.id = id;
 	}
-	
+
 	public void printUser() {
 		System.out.println("ID: " + this.getId() + "\n"
 				+ "Benutzername: " + this.getUsername() + "\n"

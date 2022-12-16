@@ -24,7 +24,7 @@ public class Task {
 				+ "Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + "\n"
 				+ "Kosten: " + this.costs.getAmount() + "\n"
 				+ "Bereits bezahlt: " + this.costs.isAlreadyPaid() + "\n"
-				+ "Fertig: " + this.finished);
+				+ "Fertig: " + this.finished + "\n");
 	}
 
 }
