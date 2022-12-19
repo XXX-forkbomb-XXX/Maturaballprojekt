@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;		//19.12
 
 public class User {
 	private String firstname;
@@ -72,6 +73,23 @@ public class User {
 	public void printTask() {
 		for(int i = 0; i < tasks.size(); i++) {
 			tasks.get(i).printTask();
+		}
+	}
+	
+	public SponsorEntry addSponsor() {		//19.12
+		
+		SponsorEntry se = null;
+		se.createSponsor();
+	
+		sponsorEntries.add(se);
+		Project.sponsorEntries.add(se);
+		
+		return se;
+	}
+	
+	public void printSponsorEntries() {			//19.12
+		for(int i = 0; i < sponsorEntries.size(); i++){
+			System.out.println();
 		}
 	}
 

@@ -1,7 +1,7 @@
 
 public class Costs {
-	float amount;
-	boolean alreadyPaid;
+	private float amount;			//19.12
+	private boolean alreadyPaid;
 	
 	public Costs(float amount, boolean alreadyPaid) {
 		this.amount = amount;

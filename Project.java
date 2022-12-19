@@ -95,8 +95,8 @@ public class Project {
 			while(auswahl != 0) {
 				System.out.println("Was moechten Sie tun\n"
 						+ "\t1) Meine Aufgaben ausgeben\n"
-						+ "\t2) \n"
-						+ "\t3) \n"
+						+ "\t2) Meine Sponsoreintraege ausgeben\n"	//19.12
+						+ "\t3) Sponsoreintrag erstellen\n" 			//19.12
 						+ "\t4) ");
 				if (currentUser instanceof Admin) {
 					System.out.println(""
@@ -110,7 +110,9 @@ public class Project {
 				System.out.println("\t0) Ausloggen\nEingabe: ");
 				auswahl = scan.nextInt();
 				switch(auswahl) {
-					case 1: currentUser.printTask();
+					case 1: currentUser.printTask(); break;
+					case 2: currentUser.printSponsorEntries(); break;		//
+					case 3: currentUser.addSponsor(); break;		//
 				}
 				if(currentUser instanceof Admin) {
 					switch(auswahl) {
