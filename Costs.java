@@ -1,6 +1,6 @@
 
 public class Costs {
-	private float amount;			//19.12
+	private float amount;			
 	private boolean alreadyPaid;
 	
 	public Costs(float amount, boolean alreadyPaid) {

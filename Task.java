@@ -55,26 +55,46 @@ public class Task {
 	private boolean finished;
 	private Costs costs;
 	private User user;
+	private Company company;
 	
 	public Task() {
 		
 	}
 	
-	public Task(int id, String name, String description, boolean finished, Costs costs, User user){
-		this.id = id;
+	public Task(String name, String description, boolean finished, Costs costs, User user){				//21.12
 		this.name = name;
 		this.description = description;
 		this.finished = finished;
 		this.costs = costs;
 		this.user = user;
+		this.id = counterId;
+		counterId++;
 	}
 	
-	public void printTask() {
+	public Task(String name, String description, boolean finished, Costs costs, Company company) {		//21.12
+		this.name = name;
+		this.description = description;
+		this.finished = finished;
+		this.costs = costs;
+		this.company = company;
+		this.id = counterId;
+		counterId++;
+	}
+	
+	public void printTask() {			//21.12
 		System.out.println("Task-ID: " + this.id + "\n"
 				+ "Name: " + this.name + "\n"
-				+ "Beschreibung: " + this.description + "\n"
-				+ "Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + "\n"
-				+ "Kosten: " + this.costs.getAmount() + "\n"
+				+ "Beschreibung: " + this.description);
+		if(company == null) {
+			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname());
+		}
+		else {
+			System.out.println("Daten Firma:\nName: " + this.company.getName() + "\n"
+					+ "Addresse: " + this.company.getAddress() + "\n"
+					+ "Email: " + this.company.getEmail() + "\n"
+					+ "Nummer: " + this.company.getNumber());
+		}
+		System.out.println("Kosten: " + this.costs.getAmount() + "\n"
 				+ "Bereits bezahlt: " + this.costs.isAlreadyPaid() + "\n"
 				+ "Fertig: " + this.finished + "\n");
 	}

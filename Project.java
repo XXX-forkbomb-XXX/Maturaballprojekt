@@ -9,6 +9,7 @@ public class Project {
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	public static ArrayList<Task> tasks = new ArrayList<Task>();
+	public static ArrayList<Task> companyTask = new ArrayList<Task>();			//21.12
 	private static User currentUser;
 	
 	public static User searchUser() {
@@ -114,10 +115,16 @@ public class Project {
 		}
 	}
 	
+	public static void printAllCompanyTasks() {
+		for(int i = 0; i < companyTask.size(); i++) {
+			companyTask.get(i).printTask();
+		}
+	}
+	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
-		Admin mosjula = new Admin(0, "Julian", "Moser", "mosjula", "8362");
-		User grualea = new User(0, "Alex", "Gruber", "grualea", "83f32");
+		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");		//21.12
+		User grualea = new User("Alex", "Gruber", "grualea", "83f32");
 		
 		
 		users.add(mosjula);
@@ -137,7 +144,8 @@ public class Project {
 						+ "\t1) Meine Aufgaben ausgeben\n"
 						+ "\t2) Meine Sponsoreintraege ausgeben\n"	//19.12
 						+ "\t3) Sponsoreintrag erstellen\n" 			//19.12
-						+ "\t4) Sponsoreintrag loeschen");
+						+ "\t4) Sponsoreintrag loeschen\n"
+						+ "\t5) Firmenbezogene Aufgaben ausgeben");		//21.12
 				if (currentUser instanceof Admin) {
 					System.out.println(""
 							+ "\t11) Alle Benutzer ausgeben\n"
@@ -146,7 +154,8 @@ public class Project {
 							+ "\t14) Aufgaben eines Benutzers ausgeben\n"
 							+ "\t15) Aufgaben aller Benutzer ausgeben\n"
 							+ "\t16) Aufgabe erstellen\n"
-							+ "\t17) Aufgabe loeschen");
+							+ "\t17) Aufgabe loeschen\n"
+							+ "\t18) Firmenbezogene Aufgabe erstellen");		//21.12
 				}
 				System.out.println("\t0) Ausloggen\nEingabe: ");
 				auswahl = scan.nextInt();
@@ -155,6 +164,7 @@ public class Project {
 					case 2: currentUser.printSponsorEntries(); break;		//
 					case 3: currentUser.addSponsorEntry(); break;		//
 					case 4: currentUser.deleteSponsorEntry(); break;
+					case 5: printAllCompanyTasks(); break;					//21.12
 				}
 				if(currentUser instanceof Admin) {
 					switch(auswahl) {
@@ -165,6 +175,7 @@ public class Project {
 						case 15: printAllTasks(); break;
 						case 16: ((Admin) currentUser).giveTask(); break;
 						case 17: ((Admin) currentUser).deleteTask(); break;
+						case 18: ((Admin) currentUser).addCompanyTask(); break;			//21.12
 					}
 				}
 			}

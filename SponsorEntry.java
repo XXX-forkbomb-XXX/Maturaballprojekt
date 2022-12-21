@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class SponsorEntry {
 	public static int counterId = 0;
 	private int id;
-	private Company company;		//19.12
+	private Company company;		
 	private float amount;
 	
 	public SponsorEntry() {

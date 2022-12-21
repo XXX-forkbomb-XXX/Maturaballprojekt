@@ -7,7 +7,7 @@ public class User {
 	private String username;
 	private String password;
 	private int id;
-	public static int counterID = 1000; 
+	public static int counterID = 0;	//21.12 
 	private ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	public ArrayList<Task> tasks = new ArrayList<Task>();
 	
@@ -15,12 +15,13 @@ public class User {
 		
 	}
 	
-	public User(int id, String firstname, String surname, String username, String password) {
+	public User(String firstname, String surname, String username, String password) {
 		this.firstname = firstname;
 		this.surname = surname;
 		this.username = username;
 		this.password = password;
-		this.id = id;
+		this.id = counterID;
+		counterID++;			//21.12
 	}	
 	
 	public String getFirstname() {

@@ -4,9 +4,13 @@ import java.util.Scanner;
 public class Company {
 	private String name;
 	private String address;
-	private String email;				//19.12
+	private String email;			
 	private String number;
 	private ArrayList<Task> tasks = new ArrayList<Task>();
+	
+	public Company() {
+		
+	}
 	
 	public Company(String name, String address, String email, String number) {
 		this.name = name;
@@ -55,21 +59,18 @@ public class Company {
 		this.tasks = tasks;
 	}
 	
-	public Company createCompany() { //19.12
-		Company c = null;
-		
+	public void createCompany() { //21.12
+
 		Scanner s = new Scanner(System.in);
-		System.out.println("Daten der Firma:");
-		System.out.printf("Name: ");
-		c.setName(s.nextLine());
-		System.out.printf("\nAddresse: ");
-		c.setAddress(s.nextLine());
-		System.out.println("\nEmail: ");
-		c.setEmail(s.nextLine());
-		System.out.printf("\nNummer: ");
-		c.setNumber(s.nextLine());
+		System.out.printf("Daten der Firma: \nName: ");
+		this.setName(s.nextLine());
+		System.out.printf("Addresse: ");
+		this.setAddress(s.nextLine());
+		System.out.printf("Email: ");
+		this.setEmail(s.nextLine());
+		System.out.printf("Nummer: ");
+		this.setNumber(s.nextLine());
 		
-		return c;
 	}
 	
 }

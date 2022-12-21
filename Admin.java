@@ -2,14 +2,14 @@ import java.util.Scanner;
 
 public class Admin extends User{
 
-	public Admin(int id, String firstname, String surname, String username, String password) {
-		super(id, firstname, surname, username, password);
+	public Admin(String firstname, String surname, String username, String password) {		//21.12
+		super(firstname, surname, username, password);
 	}
 
-	public void creatUser() {
+	public void creatUser() {				//21.12
 		Scanner s = new Scanner(System.in);
 		System.out.println("Gib einen Vorname, Nachnamen, Benutzername und Passwort ein");
-		User tmp = new User(User.counterID, s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine());
+		User tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine());
 		User.counterID++;
 		Project.users.add(tmp);
 	}
@@ -30,9 +30,8 @@ public class Admin extends User{
 		User u = Project.searchUser();
 		Scanner s = new Scanner(System.in);
 		System.out.println("Gib Name, eine Beschreibung und die Kosten ein");
-		Task tmp = new Task(Task.counterId, s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), u);
+		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), u);
 		u.addTask(tmp);
-		Task.counterId++;
 		Project.tasks.add(tmp);
 	}
 	
@@ -55,6 +54,16 @@ public class Admin extends User{
 		}
 		
 		System.out.println("Aufgabe wurde geloescht");
+	}
+	
+	public void addCompanyTask() {				//21.12
+		Company c = new Company();
+		c.createCompany();
+		Scanner s = new Scanner(System.in);
+		System.out.println("Gib Name, Beschreibung und Kosten ein:");
+		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), c);
+		
+		Project.companyTask.add(tmp);
 	}
 
 }
