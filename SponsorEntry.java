@@ -1,31 +1,51 @@
 import java.util.Scanner;
 
 public class SponsorEntry {
+	public static int counterId = 0;
+	private int id;
 	private Company company;		//19.12
 	private float amount;
 	
-	public SponsorEntry(Company company, float amount) {
+	public SponsorEntry() {
+		
+	}
+	
+	public SponsorEntry(int id, Company company, float amount) {
+		this.id = id;
 		this.company = company;
 		this.amount = amount;
 	}
-	
-	public SponsorEntry createSponsor() { //19.12
-		Scanner s = new Scanner(System.in);
-		Company c = null;
-		c.createCompany();
-		System.out.printf("\nBeitrag : ");
-		
-		SponsorEntry se = new SponsorEntry(c, s.nextFloat());
-		return se;
+
+	public int getId() {
+		return id;
 	}
-	
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
 	public void printSponsorEntry() {				//19.12
-		System.out.println("Unternehmen: " + this.company.getName() + "\n"
+		System.out.println("Sponsoreintrag-ID: " + this.getId() + "\n"
+				+ "Unternehmen: " + this.company.getName() + "\n"
 				+ "Addresse: " + this.company.getAddress() + "\n"
 				+ "Email: " + this.company.getEmail() + "\n"
 				+ "Nummer: " + this.company.getNumber() + "\n"
-				+ "Betrag: " + this. + "\n"
-				+ "Bereits bezahlt: " + this.costs.isAlreadyPaid() + "\n"
-				+ "Fertig: " + this.finished + "\n");
+				+ "Betrag: " + this.amount + "\n");
 	}
 }

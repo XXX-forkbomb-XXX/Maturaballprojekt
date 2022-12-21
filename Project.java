@@ -13,7 +13,7 @@ public class Project {
 	
 	public static User searchUser() {
 		Scanner scan = new Scanner(System.in);
-		User tmp = new User("", "", "", "", 0);
+		User tmp = new User();
 		boolean userFound = false;
 		do {
 			System.out.println("Geben Sie den Benutzernamen ein\nEingabe:");
@@ -28,6 +28,46 @@ public class Project {
 				System.out.println("Benutzername wurde nicht gefunden");
 			}
 		}while(!userFound);	
+		return tmp;
+	}
+	
+	public static SponsorEntry searchSponsorEntry(User u) {
+		Scanner scan = new Scanner(System.in);
+		SponsorEntry tmp = new SponsorEntry();
+		boolean sponsorEntryFound = false;
+		do {
+			System.out.println("Geben Sie die Sponsoreintrag-Id ein\nEingabe:");
+			int id = scan.nextInt();
+			for(int i = 0; i < sponsorEntries.size(); i++) {
+				if(sponsorEntries.get(i).getId() == id) {
+					tmp = sponsorEntries.get(i);
+					sponsorEntryFound = true;
+				}
+			}
+			if(!sponsorEntryFound) {
+				System.out.println("Sponsoreintrag wurde nicht gefunden");
+			}
+		}while(!sponsorEntryFound);	
+		return tmp;
+	}
+	
+	public static Task searchTask(User u) {
+		Scanner scan = new Scanner(System.in);
+		Task tmp = new Task();
+		boolean taskFound = false;
+		do {
+			System.out.println("Geben Sie die Task-Id ein\nEingabe:");
+			int id = scan.nextInt();
+			for(int i = 0; i < tasks.size(); i++) {
+				if(tasks.get(i).getId() == id) {
+					tmp = tasks.get(i);
+					taskFound = true;
+				}
+			}
+			if(!taskFound) {
+				System.out.println("Aufgabe wurde nicht gefunden");
+			}
+		}while(!taskFound);	
 		return tmp;
 	}
 	
@@ -51,7 +91,7 @@ public class Project {
 	
 	public static User logIn() {
 		Scanner scan = new Scanner(System.in);
-		User tmp = new User("", "", "", "", 0);
+		User tmp = new User();
 		boolean correct = false;
 		do{
 			tmp = searchUser();
@@ -76,8 +116,8 @@ public class Project {
 	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
-		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362", User.counterID);
-		User grualea = new User("Alex", "Gruber", "grualea", "83f32", User.counterID);
+		Admin mosjula = new Admin(0, "Julian", "Moser", "mosjula", "8362");
+		User grualea = new User(0, "Alex", "Gruber", "grualea", "83f32");
 		
 		
 		users.add(mosjula);
@@ -97,31 +137,34 @@ public class Project {
 						+ "\t1) Meine Aufgaben ausgeben\n"
 						+ "\t2) Meine Sponsoreintraege ausgeben\n"	//19.12
 						+ "\t3) Sponsoreintrag erstellen\n" 			//19.12
-						+ "\t4) ");
+						+ "\t4) Sponsoreintrag loeschen");
 				if (currentUser instanceof Admin) {
 					System.out.println(""
 							+ "\t11) Alle Benutzer ausgeben\n"
 							+ "\t12) Benutzer erstellen\n"
 							+ "\t13) Benutzer loeschen\n"
-							+ "\t14) Aufgabe geben\n"
-							+ "\t15) Aufgaben eines Benutzers ausgeben\n"
-							+ "\t16) Aufgaben aller Benutzer ausgeben");
+							+ "\t14) Aufgaben eines Benutzers ausgeben\n"
+							+ "\t15) Aufgaben aller Benutzer ausgeben\n"
+							+ "\t16) Aufgabe erstellen\n"
+							+ "\t17) Aufgabe loeschen");
 				}
 				System.out.println("\t0) Ausloggen\nEingabe: ");
 				auswahl = scan.nextInt();
 				switch(auswahl) {
-					case 1: currentUser.printTask(); break;
+					case 1: currentUser.printTasks(); break;
 					case 2: currentUser.printSponsorEntries(); break;		//
-					case 3: currentUser.addSponsor(); break;		//
+					case 3: currentUser.addSponsorEntry(); break;		//
+					case 4: currentUser.deleteSponsorEntry(); break;
 				}
 				if(currentUser instanceof Admin) {
 					switch(auswahl) {
 						case 11: printUsers(); break;
 						case 12: ((Admin) currentUser).creatUser(); break;
-						case 13: ((Admin) currentUser).deleteUser(searchUser()); break;
-						case 14: ((Admin) currentUser).giveTask(searchUser()); break;
-						case 15: searchUser().printTask(); break;
-						case 16: printAllTasks(); break;
+						case 13: ((Admin) currentUser).deleteUser(); break;
+						case 14: searchUser().printTasks(); break;
+						case 15: printAllTasks(); break;
+						case 16: ((Admin) currentUser).giveTask(); break;
+						case 17: ((Admin) currentUser).deleteTask(); break;
 					}
 				}
 			}

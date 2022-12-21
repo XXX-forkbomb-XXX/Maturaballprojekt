@@ -2,35 +2,59 @@ import java.util.Scanner;
 
 public class Admin extends User{
 
-	public Admin(String firstname, String surname, String username, String password, int id) {
-		super(firstname, surname, username, password, id);
+	public Admin(int id, String firstname, String surname, String username, String password) {
+		super(id, firstname, surname, username, password);
 	}
 
 	public void creatUser() {
 		Scanner s = new Scanner(System.in);
 		System.out.println("Gib einen Vorname, Nachnamen, Benutzername und Passwort ein");
-		User tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine(), User.counterID);
+		User tmp = new User(User.counterID, s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine());
 		User.counterID++;
 		Project.users.add(tmp);
 	}
 	
-	public void deleteUser(User u) {
+	public void deleteUser() {
+		User u = Project.searchUser();
 		for(int i = 0; i < Project.users.size(); i++) {
 			if(Project.users.get(i).getUsername().equals(u.getUsername())) {
+				Project.users.set(i, null);
 				Project.users.remove(i);
 				break;
 			}
 		}
+		System.out.println("Benutzer wurde geloescht");
 	}
 	
-	public Task giveTask(User u) {
+	public void giveTask() {
+		User u = Project.searchUser();
 		Scanner s = new Scanner(System.in);
 		System.out.println("Gib Name, eine Beschreibung und die Kosten ein");
 		Task tmp = new Task(Task.counterId, s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), u);
 		u.addTask(tmp);
+		Task.counterId++;
 		Project.tasks.add(tmp);
+	}
+	
+	public void deleteTask() {
+		User u = Project.searchUser();
+		Task t = Project.searchTask(u);
+		for(int i = 0; i < Project.tasks.size(); i++) {
+			if(Project.tasks.get(i).getId() == t.getId()) {
+				t = Project.tasks.get(i);
+				Project.tasks.set(i, null);
+				Project.tasks.remove(i);
+			}
+		}
 		
-		return tmp;
+		for(int i = 0; i < u.tasks.size(); i++) {
+			if(u.tasks.get(i) == t) {
+				u.tasks.set(i, null);
+				u.tasks.remove(i);
+			}
+		}
+		
+		System.out.println("Aufgabe wurde geloescht");
 	}
 
 }
