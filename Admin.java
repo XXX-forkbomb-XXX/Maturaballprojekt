@@ -2,25 +2,56 @@ import java.util.Scanner;
 
 public class Admin extends User{
 
-	public Admin(String firstname, String surname, String username, String password) {		//21.12
+	public Admin(String firstname, String surname, String username, String password) {
 		super(firstname, surname, username, password);
 	}
+	
+	public static boolean usernameAlreadyExists(String username) { //21.12
+		boolean alreadyExists = false; 
+		for(int i = 0; i < Project.users.size(); i++){
+			if(Project.users.get(i).getUsername().equals(username)) {
+				alreadyExists = true;
+			}
+		}
+		return alreadyExists;
+	}
 
-	public void creatUser() {				//21.12
+	public void creatUser() { //21.12
 		Scanner s = new Scanner(System.in);
-		System.out.println("Gib einen Vorname, Nachnamen, Benutzername und Passwort ein");
-		User tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine());
-		User.counterID++;
+		User tmp = new User();
+		boolean correct = false;
+		do {
+			System.out.println("Gib einen Vorname, Nachnamen, Benutzername und Passwort ein");
+			tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine());
+			if(usernameAlreadyExists(tmp.getUsername())) {
+				System.out.println("Benutzername ist bereits vergeben");				
+			}else {
+				correct = true;
+			}
+		}while(!correct);
 		Project.users.add(tmp);
 	}
 	
-	public void deleteUser() {
+	public void deleteUser() { // 21.12
 		User u = Project.searchUser();
+		for(int i = 0; i < u.getSponsorEntries().size(); i++) {
+			for(int j = 0; i < Project.sponsorEntries.size(); j++) {
+				if(Project.sponsorEntries.get(i).equals(u.getSponsorEntries().get(i))) {
+					Project.sponsorEntries.remove(j);
+				}
+			}
+		}
+		for(int i = 0; i < u.getTasks().size(); i++) {
+			for(int j = 0; i < Project.tasks.size(); j++) {
+				if(Project.tasks.get(j).equals(u.getTasks().get(i))) {
+					Project.tasks.remove(j);
+				}
+			}
+		}
 		for(int i = 0; i < Project.users.size(); i++) {
 			if(Project.users.get(i).getUsername().equals(u.getUsername())) {
 				Project.users.set(i, null);
 				Project.users.remove(i);
-				break;
 			}
 		}
 		System.out.println("Benutzer wurde geloescht");
@@ -62,8 +93,21 @@ public class Admin extends User{
 		Scanner s = new Scanner(System.in);
 		System.out.println("Gib Name, Beschreibung und Kosten ein:");
 		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), c);
-		
+
 		Project.companyTask.add(tmp);
 	}
 
+	
+	public void deleteCompanyTask() {
+		Task t = Project.searchTask();
+		for(int i = 0; i < Project.tasks.size(); i++) {
+			if(Project.tasks.get(i).getId() == t.getId()) {
+				t = Project.tasks.get(i);
+				Project.tasks.set(i, null);
+				Project.tasks.remove(i);
+			}
+		}
+		
+		System.out.println("Firmenbezogene Aufgabe wurde geloescht");
+	}
 }

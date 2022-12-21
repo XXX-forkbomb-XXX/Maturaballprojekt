@@ -9,7 +9,7 @@ public class Project {
 	public static ArrayList<User> users = new ArrayList<User>();
 	public static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	public static ArrayList<Task> tasks = new ArrayList<Task>();
-	public static ArrayList<Task> companyTask = new ArrayList<Task>();			//21.12
+	public static ArrayList<Task> companyTask = new ArrayList<Task>();
 	private static User currentUser;
 	
 	public static User searchUser() {
@@ -49,6 +49,26 @@ public class Project {
 				System.out.println("Sponsoreintrag wurde nicht gefunden");
 			}
 		}while(!sponsorEntryFound);	
+		return tmp;
+	}
+	
+	public static Task searchTask() {
+		Scanner scan = new Scanner(System.in);
+		Task tmp = new Task();
+		boolean taskFound = false;
+		do {
+			System.out.println("Geben Sie die Task-Id ein\nEingabe:");
+			int id = scan.nextInt();
+			for(int i = 0; i < tasks.size(); i++) {
+				if(tasks.get(i).getId() == id) {
+					tmp = tasks.get(i);
+					taskFound = true;
+				}
+			}
+			if(!taskFound) {
+				System.out.println("Aufgabe wurde nicht gefunden");
+			}
+		}while(!taskFound);	
 		return tmp;
 	}
 	
@@ -98,7 +118,7 @@ public class Project {
 			tmp = searchUser();
 			correct = checkPassword(tmp);
 		}while(!correct);
-		System.out.println("Willkommen " + tmp.getUsername());
+		System.out.println("\nWillkommen " + tmp.getUsername());
 		return tmp;
 	}
 	
@@ -123,7 +143,7 @@ public class Project {
 	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
-		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");		//21.12
+		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
 		User grualea = new User("Alex", "Gruber", "grualea", "83f32");
 		
 		
@@ -139,13 +159,15 @@ public class Project {
 				System.out.println("Du bist ein User");			
 			}
 			int auswahl = 1;
-			while(auswahl != 0) {
-				System.out.println("Was moechten Sie tun\n"
+			while(auswahl != 0 || currentUser != null) { //21.12
+				System.out.println();
+				System.out.println("Was moechten Sie tun?\n"
 						+ "\t1) Meine Aufgaben ausgeben\n"
 						+ "\t2) Meine Sponsoreintraege ausgeben\n"	//19.12
 						+ "\t3) Sponsoreintrag erstellen\n" 			//19.12
 						+ "\t4) Sponsoreintrag loeschen\n"
-						+ "\t5) Firmenbezogene Aufgaben ausgeben");		//21.12
+						+ "\t5) Passwort zuruecksetzen\n"
+						+ "\t6) Firmenbezogene Aufgaben ausgeben"); //21.12
 				if (currentUser instanceof Admin) {
 					System.out.println(""
 							+ "\t11) Alle Benutzer ausgeben\n"
@@ -155,7 +177,8 @@ public class Project {
 							+ "\t15) Aufgaben aller Benutzer ausgeben\n"
 							+ "\t16) Aufgabe erstellen\n"
 							+ "\t17) Aufgabe loeschen\n"
-							+ "\t18) Firmenbezogene Aufgabe erstellen");		//21.12
+							+ "\t18) Firmenbezogene Aufgabe erstellen\n"
+							+ "\t19) Firmenbezogene Aufgabe loeschen");
 				}
 				System.out.println("\t0) Ausloggen\nEingabe: ");
 				auswahl = scan.nextInt();
@@ -164,7 +187,8 @@ public class Project {
 					case 2: currentUser.printSponsorEntries(); break;		//
 					case 3: currentUser.addSponsorEntry(); break;		//
 					case 4: currentUser.deleteSponsorEntry(); break;
-					case 5: printAllCompanyTasks(); break;					//21.12
+					case 5: currentUser.resetPassword(); break; //21.12
+					case 6: printAllCompanyTasks(); break;
 				}
 				if(currentUser instanceof Admin) {
 					switch(auswahl) {
@@ -175,7 +199,8 @@ public class Project {
 						case 15: printAllTasks(); break;
 						case 16: ((Admin) currentUser).giveTask(); break;
 						case 17: ((Admin) currentUser).deleteTask(); break;
-						case 18: ((Admin) currentUser).addCompanyTask(); break;			//21.12
+						case 18: ((Admin) currentUser).addCompanyTask(); break;
+						case 19: ((Admin) currentUser).deleteCompanyTask(); break;
 					}
 				}
 			}

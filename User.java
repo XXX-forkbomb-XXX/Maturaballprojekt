@@ -7,7 +7,7 @@ public class User {
 	private String username;
 	private String password;
 	private int id;
-	public static int counterID = 0;	//21.12 
+	public static int counterId = 0; 
 	private ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	public ArrayList<Task> tasks = new ArrayList<Task>();
 	
@@ -20,8 +20,8 @@ public class User {
 		this.surname = surname;
 		this.username = username;
 		this.password = password;
-		this.id = counterID;
-		counterID++;			//21.12
+		this.id = counterId;
+		counterId++;
 	}	
 	
 	public String getFirstname() {
@@ -113,6 +113,45 @@ public class User {
 		for(int i = 0; i < sponsorEntries.size(); i++){
 			sponsorEntries.get(i).printSponsorEntry();
 		}
+	}
+	
+	public void resetPassword() { // 21.12
+		String password,passwordA, passwordW;
+		Scanner scan = new Scanner(System.in);
+		do {
+			System.out.println("Altes Passwort\nEingabe: ");
+			passwordA = scan.nextLine();
+			if(!passwordA.equals(this.getPassword())) {
+				System.out.println("Falsches Passwort");
+			}
+		}while(!passwordA.equals(this.getPassword()));
+		do {
+			System.out.println("Neues Passwort\nEingabe: ");
+			password = scan.nextLine();
+			System.out.println("Neues Passwort bestätigen\nEingabe: ");
+			passwordW = scan.nextLine();
+			if(!password.equals(passwordW)) {
+				System.out.println("Passwoerter stimmen nicht ueberein");
+			}
+		}while(!password.equals(passwordW));
+		this.setPassword(password);
+		System.out.println("Passwort wurde zurueckgesetzt");
+	}
+
+	public ArrayList<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(ArrayList<Task> tasks) {
+		this.tasks = tasks;
+	}
+
+	public ArrayList<SponsorEntry> getSponsorEntries() { //21.12
+		return sponsorEntries;
+	}
+
+	public void setSponsorEntries(ArrayList<SponsorEntry> sponsorEntries) { //21.12
+		this.sponsorEntries = sponsorEntries;
 	}
 
 }

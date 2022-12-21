@@ -4,12 +4,12 @@ import java.util.Scanner;
 public class Company {
 	private String name;
 	private String address;
-	private String email;			
+	private String email;				//19.12
 	private String number;
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
 	public Company() {
-		
+
 	}
 	
 	public Company(String name, String address, String email, String number) {
@@ -59,9 +59,10 @@ public class Company {
 		this.tasks = tasks;
 	}
 	
-	public void createCompany() { //21.12
-
+	public void createCompany() {
+		
 		Scanner s = new Scanner(System.in);
+		
 		System.out.printf("Daten der Firma: \nName: ");
 		this.setName(s.nextLine());
 		System.out.printf("Addresse: ");
@@ -70,7 +71,6 @@ public class Company {
 		this.setEmail(s.nextLine());
 		System.out.printf("Nummer: ");
 		this.setNumber(s.nextLine());
-		
 	}
 	
 }
