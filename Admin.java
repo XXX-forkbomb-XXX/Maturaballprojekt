@@ -8,8 +8,8 @@ public class Admin extends User{
 	
 	public static boolean usernameAlreadyExists(String username) { //21.12
 		boolean alreadyExists = false; 
-		for(int i = 0; i < Project.users.size(); i++){
-			if(Project.users.get(i).getUsername().equals(username)) {
+		for(int i = 0; i < Project.getUsers().size(); i++){
+			if(Project.getUsers().get(i).getUsername().equals(username)) {
 				alreadyExists = true;
 			}
 		}
@@ -29,29 +29,29 @@ public class Admin extends User{
 				correct = true;
 			}
 		}while(!correct);
-		Project.users.add(tmp);
+		Project.getUsers().add(tmp);
 	}
 	
 	public void deleteUser() { // 21.12
 		User u = Project.searchUser();
 		for(int i = 0; i < u.getSponsorEntries().size(); i++) {
-			for(int j = 0; i < Project.sponsorEntries.size(); j++) {
-				if(Project.sponsorEntries.get(i).equals(u.getSponsorEntries().get(i))) {
-					Project.sponsorEntries.remove(j);
+			for(int j = 0; i < Project.getSponsorEntries().size(); j++) {
+				if(Project.getSponsorEntries().get(i).equals(u.getSponsorEntries().get(i))) {
+					Project.getSponsorEntries().remove(j);
 				}
 			}
 		}
 		for(int i = 0; i < u.getTasks().size(); i++) {
-			for(int j = 0; i < Project.tasks.size(); j++) {
-				if(Project.tasks.get(j).equals(u.getTasks().get(i))) {
-					Project.tasks.remove(j);
+			for(int j = 0; i < Project.getTasks().size(); j++) {
+				if(Project.getTasks().get(j).equals(u.getTasks().get(i))) {
+					Project.getTasks().remove(j);
 				}
 			}
 		}
-		for(int i = 0; i < Project.users.size(); i++) {
-			if(Project.users.get(i).getUsername().equals(u.getUsername())) {
-				Project.users.set(i, null);
-				Project.users.remove(i);
+		for(int i = 0; i < Project.getUsers().size(); i++) {
+			if(Project.getUsers().get(i).getUsername().equals(u.getUsername())) {
+				Project.getUsers().set(i, null);
+				Project.getUsers().remove(i);
 			}
 		}
 		System.out.println("Benutzer wurde geloescht");
@@ -63,24 +63,24 @@ public class Admin extends User{
 		System.out.println("Gib Name, eine Beschreibung und die Kosten ein");
 		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), u);
 		u.addTask(tmp);
-		Project.tasks.add(tmp);
+		Project.getTasks().add(tmp);
 	}
 	
 	public void deleteTask() {
 		User u = Project.searchUser();
 		Task t = Project.searchTask(u);
-		for(int i = 0; i < Project.tasks.size(); i++) {
-			if(Project.tasks.get(i).getId() == t.getId()) {
-				t = Project.tasks.get(i);
-				Project.tasks.set(i, null);
-				Project.tasks.remove(i);
+		for(int i = 0; i < Project.getTasks().size(); i++) {
+			if(Project.getTasks().get(i).getId() == t.getId()) {
+				t = Project.getTasks().get(i);
+				Project.getTasks().set(i, null);
+				Project.getTasks().remove(i);
 			}
 		}
 		
-		for(int i = 0; i < u.tasks.size(); i++) {
-			if(u.tasks.get(i) == t) {
-				u.tasks.set(i, null);
-				u.tasks.remove(i);
+		for(int i = 0; i < u.getTasks().size(); i++) {
+			if(u.getTasks().get(i) == t) {
+				u.getTasks().set(i, null);
+				u.getTasks().remove(i);
 			}
 		}
 		
@@ -94,17 +94,17 @@ public class Admin extends User{
 		System.out.println("Gib Name, Beschreibung und Kosten ein:");
 		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), c);
 
-		Project.companyTask.add(tmp);
+		Project.getCompanyTasks().add(tmp);
 	}
 
 	
 	public void deleteCompanyTask() {
-		Task t = Project.searchTask();
-		for(int i = 0; i < Project.tasks.size(); i++) {
-			if(Project.tasks.get(i).getId() == t.getId()) {
-				t = Project.tasks.get(i);
-				Project.tasks.set(i, null);
-				Project.tasks.remove(i);
+		Task t = Project.searchCompanyTask();
+		for(int i = 0; i < Project.getCompanyTasks().size(); i++) {
+			if(Project.getCompanyTasks().get(i).getId() == t.getId()) {
+				t = Project.getCompanyTasks().get(i);
+				Project.getCompanyTasks().set(i, null);
+				Project.getCompanyTasks().remove(i);
 			}
 		}
 		

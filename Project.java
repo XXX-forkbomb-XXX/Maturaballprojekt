@@ -6,10 +6,10 @@ import java.util.Scanner;
 public class Project {
 	private float income;
 	private float spending;
-	public static ArrayList<User> users = new ArrayList<User>();
-	public static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
-	public static ArrayList<Task> tasks = new ArrayList<Task>();
-	public static ArrayList<Task> companyTask = new ArrayList<Task>();
+	private static ArrayList<User> users = new ArrayList<User>();
+	private static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
+	private static ArrayList<Task> tasks = new ArrayList<Task>();
+	private static ArrayList<Task> companyTasks = new ArrayList<Task>();
 	private static User currentUser;
 	
 	public static User searchUser() {
@@ -92,6 +92,26 @@ public class Project {
 		return tmp;
 	}
 	
+	public static Task searchCompanyTask() {
+		Scanner scan = new Scanner(System.in);
+		Task tmp = new Task();
+		boolean taskFound = false;
+		do {
+			System.out.println("Geben Sie die Task-Id ein\nEingabe:");
+			int id = scan.nextInt();
+			for(int i = 0; i < companyTasks.size(); i++) {
+				if(companyTasks.get(i).getId() == id) {
+					tmp = companyTasks.get(i);
+					taskFound = true;
+				}
+			}
+			if(!taskFound) {
+				System.out.println("Firmenbezogene Aufgabe wurde nicht gefunden");
+			}
+		}while(!taskFound);	
+		return tmp;
+	}
+	
 	public static boolean checkPassword(User tmp) {
 		Scanner scan = new Scanner(System.in);
 		boolean correct = false;
@@ -136,8 +156,8 @@ public class Project {
 	}
 	
 	public static void printAllCompanyTasks() {
-		for(int i = 0; i < companyTask.size(); i++) {
-			companyTask.get(i).printTask();
+		for(int i = 0; i < companyTasks.size(); i++) {
+			companyTasks.get(i).printTask();
 		}
 	}
 	
@@ -159,7 +179,7 @@ public class Project {
 				System.out.println("Du bist ein User");			
 			}
 			int auswahl = 1;
-			while(auswahl != 0 || currentUser != null) { //21.12
+			while(auswahl != 0) { //21.12
 				System.out.println();
 				System.out.println("Was moechten Sie tun?\n"
 						+ "\t1) Meine Aufgaben ausgeben\n"
@@ -206,4 +226,62 @@ public class Project {
 			}
 		}
 	}
+
+	public float getIncome() {
+		return income;
+	}
+
+	public void setIncome(float income) {
+		this.income = income;
+	}
+
+	public float getSpending() {
+		return spending;
+	}
+
+	public void setSpending(float spending) {
+		this.spending = spending;
+	}
+
+	public static ArrayList<User> getUsers() {
+		return users;
+	}
+
+	public static void setUsers(ArrayList<User> users) {
+		Project.users = users;
+	}
+
+	public static ArrayList<SponsorEntry> getSponsorEntries() {
+		return sponsorEntries;
+	}
+
+	public static void setSponsorEntries(ArrayList<SponsorEntry> sponsorEntries) {
+		Project.sponsorEntries = sponsorEntries;
+	}
+
+	public static ArrayList<Task> getTasks() {
+		return tasks;
+	}
+
+	public static void setTasks(ArrayList<Task> tasks) {
+		Project.tasks = tasks;
+	}
+
+	public static ArrayList<Task> getCompanyTasks() {
+		return companyTasks;
+	}
+
+	public static void setCompanyTasks(ArrayList<Task> companyTask) {
+		Project.companyTasks = companyTask;
+	}
+
+	public static User getCurrentUser() {
+		return currentUser;
+	}
+
+	public static void setCurrentUser(User currentUser) {
+		Project.currentUser = currentUser;
+	}
+	
+	
 }

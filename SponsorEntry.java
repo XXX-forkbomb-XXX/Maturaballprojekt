@@ -16,6 +16,16 @@ public class SponsorEntry {
 		this.amount = amount;
 	}
 
+
+	public void printSponsorEntry() {				//19.12
+		System.out.println("Sponsoreintrag-ID: " + this.getId() + "\n"
+				+ "Unternehmen: " + this.company.getName() + "\n"
+				+ "Addresse: " + this.company.getAddress() + "\n"
+				+ "Email: " + this.company.getEmail() + "\n"
+				+ "Nummer: " + this.company.getNumber() + "\n"
+				+ "Betrag: " + this.amount + "\n");
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -38,14 +48,5 @@ public class SponsorEntry {
 
 	public void setAmount(float amount) {
 		this.amount = amount;
-	}
-
-	public void printSponsorEntry() {				//19.12
-		System.out.println("Sponsoreintrag-ID: " + this.getId() + "\n"
-				+ "Unternehmen: " + this.company.getName() + "\n"
-				+ "Addresse: " + this.company.getAddress() + "\n"
-				+ "Email: " + this.company.getEmail() + "\n"
-				+ "Nummer: " + this.company.getNumber() + "\n"
-				+ "Betrag: " + this.amount + "\n");
 	}
 }

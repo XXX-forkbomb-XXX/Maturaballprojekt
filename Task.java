@@ -1,6 +1,6 @@
 
 public class Task {
-	public static int counterId = 0;
+	private static int counterId = 0;
 	private int id;
 	private String name;
 	private String description;
@@ -8,7 +8,7 @@ public class Task {
 	private Costs costs;
 	private User user;
 	private Company company;
-	
+
 	public Task() {
 		
 	}
@@ -38,7 +38,7 @@ public class Task {
 				+ "Name: " + this.name + "\n"
 				+ "Beschreibung: " + this.description);
 		if(company == null) {
-			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname());
+			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + "(" + this.user.getUsername() + ")");
 		}
 		else {
 			System.out.println("Daten Firma:\nName: " + this.company.getName() + "\n"
@@ -97,6 +97,20 @@ public class Task {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public static int getCounterId() {
+		return counterId;
+	}
 
+	public static void setCounterId(int counterId) {
+		Task.counterId = counterId;
+	}
 
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 }

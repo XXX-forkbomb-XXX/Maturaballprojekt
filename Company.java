@@ -18,6 +18,20 @@ public class Company {
 		this.email = email;
 		this.number = number;
 	}
+	
+	public void createCompany() {
+		
+		Scanner s = new Scanner(System.in);
+		
+		System.out.printf("Daten der Firma: \nName: ");
+		this.setName(s.nextLine());
+		System.out.printf("Addresse: ");
+		this.setAddress(s.nextLine());
+		System.out.printf("Email: ");
+		this.setEmail(s.nextLine());
+		System.out.printf("Nummer: ");
+		this.setNumber(s.nextLine());
+	}
 
 	public String getName() {
 		return name;
@@ -57,20 +71,6 @@ public class Company {
 
 	public void setTasks(ArrayList<Task> tasks) {
 		this.tasks = tasks;
-	}
-	
-	public void createCompany() {
-		
-		Scanner s = new Scanner(System.in);
-		
-		System.out.printf("Daten der Firma: \nName: ");
-		this.setName(s.nextLine());
-		System.out.printf("Addresse: ");
-		this.setAddress(s.nextLine());
-		System.out.printf("Email: ");
-		this.setEmail(s.nextLine());
-		System.out.printf("Nummer: ");
-		this.setNumber(s.nextLine());
 	}
 	
 }
