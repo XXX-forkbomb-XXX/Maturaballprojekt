@@ -164,7 +164,7 @@ public class Project {
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
 		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
-		User grualea = new User("Alex", "Gruber", "grualea", "83f32");
+		Admin grualea = new Admin("Alex", "Gruber", "grualea", "83f32");
 		
 		
 		users.add(mosjula);
@@ -179,8 +179,7 @@ public class Project {
 				System.out.println("Du bist ein User");			
 			}
 			int auswahl = 1;
-			while(auswahl != 0) { //21.12
-				System.out.println();
+			while(auswahl != 0 && currentUser != null) { //21.12
 				System.out.println("Was moechten Sie tun?\n"
 						+ "\t1) Meine Aufgaben ausgeben\n"
 						+ "\t2) Meine Sponsoreintraege ausgeben\n"	//19.12
@@ -223,6 +222,7 @@ public class Project {
 						case 19: ((Admin) currentUser).deleteCompanyTask(); break;
 					}
 				}
+				System.out.println();
 			}
 		}
 	}

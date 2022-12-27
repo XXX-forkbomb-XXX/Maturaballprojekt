@@ -38,7 +38,7 @@ public class Task {
 				+ "Name: " + this.name + "\n"
 				+ "Beschreibung: " + this.description);
 		if(company == null) {
-			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + "(" + this.user.getUsername() + ")");
+			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + " (" + this.user.getUsername() + ")");
 		}
 		else {
 			System.out.println("Daten Firma:\nName: " + this.company.getName() + "\n"

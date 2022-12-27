@@ -34,6 +34,9 @@ public class Admin extends User{
 	
 	public void deleteUser() { // 21.12
 		User u = Project.searchUser();
+		if(u == this) {
+			Project.setCurrentUser(null);
+		}
 		for(int i = 0; i < u.getSponsorEntries().size(); i++) {
 			for(int j = 0; i < Project.getSponsorEntries().size(); j++) {
 				if(Project.getSponsorEntries().get(i).equals(u.getSponsorEntries().get(i))) {
