@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 
 public class Project {
-	private float income;
-	private float spending;
 	private static ArrayList<User> users = new ArrayList<User>();
 	private static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	private static ArrayList<Task> tasks = new ArrayList<Task>();
@@ -161,6 +159,55 @@ public class Project {
 		}
 	}
 	
+	public static float calculateAlreadyPaidCosts(){
+		float sum = 0; 
+		for(int i = 0; i < tasks.size(); i++) {
+			if(tasks.get(i).getCosts().isAlreadyPaid()){
+				sum += tasks.get(i).getCosts().getAmount();
+			}
+		}
+		for(int i = 0; i < companyTasks.size(); i++) {
+			if(tasks.get(i).getCosts().isAlreadyPaid()){
+				sum += companyTasks.get(i).getCosts().getAmount();
+			}
+		}
+		return sum;
+	}
+	
+	public static float calculateUpcomingCosts(){
+		float sum = 0; 
+		for(int i = 0; i < tasks.size(); i++) {
+			if(!tasks.get(i).getCosts().isAlreadyPaid()){
+				sum += tasks.get(i).getCosts().getAmount();
+			}
+		}
+		for(int i = 0; i < companyTasks.size(); i++) {
+			if(!tasks.get(i).getCosts().isAlreadyPaid()){
+				sum += companyTasks.get(i).getCosts().getAmount();
+			}
+		}
+		return sum;
+	}
+	
+	public static float calculateIncome(){
+		float sum = 0; 
+		for(int i = 0; i < sponsorEntries.size(); i++) {
+			sum += sponsorEntries.get(i).getAmount();
+		}
+		return sum;
+	}
+	
+	public static float calculateTotal() {
+		return calculateIncome() - calculateUpcomingCosts() - calculateAlreadyPaidCosts();
+	}
+	
+	public static void printProject() {
+		System.out.println("Bereitsbezahlte Kosten: " + calculateAlreadyPaidCosts() + "\n"
+				+ "Bevorstehende Kosten: " + calculateAlreadyPaidCosts() + "\n"
+				+ "Einnahmen: " + calculateIncome() + "\n\n"
+				+ "Gesamt: " + calculateTotal() + "\n");
+	}
+	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
 		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
@@ -172,14 +219,9 @@ public class Project {
 		
 		while(true) {
 			currentUser = logIn();
-			
-			if (currentUser instanceof Admin) {
-				System.out.println("Du bist ein Admin");
-			}else if (currentUser instanceof User) {
-				System.out.println("Du bist ein User");			
-			}
 			int auswahl = 1;
 			while(auswahl != 0 && currentUser != null) { //21.12
+				printProject();
 				System.out.println("Was moechten Sie tun?\n"
 						+ "\t1) Meine Aufgaben ausgeben\n"
 						+ "\t2) Meine Sponsoreintraege ausgeben\n"	//19.12
@@ -225,22 +267,6 @@ public class Project {
 				System.out.println();
 			}
 		}
-	}
-
-	public float getIncome() {
-		return income;
-	}
-
-	public void setIncome(float income) {
-		this.income = income;
-	}
-
-	public float getSpending() {
-		return spending;
-	}
-
-	public void setSpending(float spending) {
-		this.spending = spending;
 	}
 
 	public static ArrayList<User> getUsers() {

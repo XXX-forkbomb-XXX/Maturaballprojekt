@@ -93,11 +93,10 @@ public class Admin extends User{
 	public void addCompanyTask() {				//21.12
 		Company c = new Company();
 		c.createCompany();
-		Scanner s = new Scanner(System.in);
-		System.out.println("Gib Name, Beschreibung und Kosten ein:");
-		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), c);
-
-		Project.getCompanyTasks().add(tmp);
+		Task t = new Task();
+		t.createTask(c);
+		
+		Project.getCompanyTasks().add(t);
 	}
 
 	

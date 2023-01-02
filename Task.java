@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class Task {
 	private static int counterId = 0;
@@ -31,6 +32,34 @@ public class Task {
 		this.company = company;
 		this.id = counterId;
 		counterId++;
+	}
+	
+	public void createTask(Company company) {
+		
+		Scanner s = new Scanner(System.in);
+		
+		System.out.printf("Daten der Aufgabe: \nName: ");
+		this.setName(s.nextLine());
+		System.out.printf("Beschreibung: ");
+		this.setDescription(s.nextLine());
+		Costs costs = new Costs();
+		costs.createCosts();
+		this.setCosts(costs);
+		this.setCompany(company);
+	}
+	
+	public void createTask(User user) {
+		
+		Scanner s = new Scanner(System.in);
+		
+		System.out.printf("Daten der Aufgabe: \nName: ");
+		this.setName(s.nextLine());
+		System.out.printf("Beschreibung: ");
+		this.setDescription(s.nextLine());
+		Costs costs = new Costs();
+		costs.createCosts();
+		this.setCosts(costs);
+		this.setUser(user);
 	}
 	
 	public void printTask() {
