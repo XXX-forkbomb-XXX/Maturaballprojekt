@@ -20,15 +20,16 @@ public class Costs {
 		System.out.printf("Daten der Kosten: \nMenge: ");
 		this.setAmount(s.nextFloat());
 		String string;
+		//string = s.next();
 		do {
 			System.out.printf("Bereits Bezahlt[w/f]: ");
-			string = s.nextLine();
+			string = s.next();
 			switch(string) {
 				case "w": this.setAlreadyPaid(true); break;
 				case "f": this.setAlreadyPaid(false); break;
 				default: System.out.println("Falsche Eingabe");
 			}
-		}while(string.equals("w")|| string.equals("f"));
+		}while(!string.equals("w") && !string.equals("f"));
 	}
 
 	public float getAmount() {

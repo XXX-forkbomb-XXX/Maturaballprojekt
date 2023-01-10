@@ -11,7 +11,8 @@ public class Task {
 	private Company company;
 
 	public Task() {
-		
+		this.id = counterId;
+		counterId++;
 	}
 	
 	public Task(String name, String description, boolean finished, Costs costs, User user){

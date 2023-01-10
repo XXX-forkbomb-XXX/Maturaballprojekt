@@ -12,7 +12,8 @@ public class User {
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
 	public User() {
-		
+		this.id = counterId;
+		counterId++;
 	}
 	
 	public User(String firstname, String surname, String username, String password) {
@@ -42,12 +43,10 @@ public class User {
 	}
 	
 	public void addSponsorEntry() {
-		Scanner s = new Scanner(System.in);
-		System.out.println("Gib Name, Adresse, Email, Nummer des Unternehmens, sowie den Betrag ein");
-		SponsorEntry se = new SponsorEntry(SponsorEntry.counterId, new Company (s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine()), s.nextFloat());
+		SponsorEntry se = new SponsorEntry();
+		se.createSponsorEntry();
 		sponsorEntries.add(se);
 		Project.getSponsorEntries().add(se);
-		SponsorEntry.counterId++;
 	}
 	
 	public void deleteSponsorEntry() {
@@ -69,7 +68,7 @@ public class User {
 		System.out.println("Sponsoreintrag wurde geloescht");
 	}
 	
-	public void printSponsorEntries() {			//19.12
+	public void printSponsorEntries() {			
 		for(int i = 0; i < sponsorEntries.size(); i++){
 			sponsorEntries.get(i).printSponsorEntry();
 		}

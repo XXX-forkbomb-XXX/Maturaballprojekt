@@ -62,9 +62,8 @@ public class Admin extends User{
 	
 	public void giveTask() {
 		User u = Project.searchUser();
-		Scanner s = new Scanner(System.in);
-		System.out.println("Gib Name, eine Beschreibung und die Kosten ein");
-		Task tmp = new Task(s.nextLine(), s.nextLine(), false, new Costs(s.nextFloat(), false), u);
+		Task tmp = new Task();
+		tmp.createTask(u);
 		u.addTask(tmp);
 		Project.getTasks().add(tmp);
 	}

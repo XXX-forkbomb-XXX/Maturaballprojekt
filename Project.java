@@ -161,6 +161,12 @@ public class Project {
 		}
 	}
 	
+	public static void printAllSponsorEntries() {
+		for(int i = 0; i < sponsorEntries.size(); i++) {
+			sponsorEntries.get(i).printSponsorEntry();
+		}
+	}
+	
 	public static float calculateAlreadyPaidCosts(){
 		float sum = 0; 
 		for(int i = 0; i < tasks.size(); i++) {
@@ -169,7 +175,7 @@ public class Project {
 			}
 		}
 		for(int i = 0; i < companyTasks.size(); i++) {
-			if(tasks.get(i).getCosts().isAlreadyPaid()){
+			if(companyTasks.get(i).getCosts().isAlreadyPaid()){
 				sum += companyTasks.get(i).getCosts().getAmount();
 			}
 		}
@@ -184,7 +190,7 @@ public class Project {
 			}
 		}
 		for(int i = 0; i < companyTasks.size(); i++) {
-			if(!tasks.get(i).getCosts().isAlreadyPaid()){
+			if(!companyTasks.get(i).getCosts().isAlreadyPaid()){
 				sum += companyTasks.get(i).getCosts().getAmount();
 			}
 		}
@@ -205,7 +211,7 @@ public class Project {
 	
 	public static void printProject() {
 		System.out.println("Bereitsbezahlte Kosten: " + calculateAlreadyPaidCosts() + "\n"
-				+ "Bevorstehende Kosten: " + calculateAlreadyPaidCosts() + "\n"
+				+ "Bevorstehende Kosten: " + calculateUpcomingCosts() + "\n"
 				+ "Einnahmen: " + calculateIncome() + "\n\n"
 				+ "Gesamt: " + calculateTotal() + "\n");
 	}
@@ -298,20 +304,28 @@ public class Project {
 					break;
 					case 3:
 						do {
-							System.out.println("Was moechten Sie tun?\n"
-									+ "\t1) Sponsoreintraege ausgeben\n"
-									+ "\t2) Sponsoreintrag erstellen\n"
-									+ "\t3) Sponsoreintrag loeschen");
 							if (currentUser instanceof Admin) {
-								
+								System.out.println("Was moechten Sie tun?\n"
+										+ "\t1) Meine Sponsoreintraege ausgeben\n"
+										+ "\t2) Sponsoreintraege eines Benutzers ausgeben\n"
+										+ "\t3) Sponsoreintraege aller Benutzer ausgeben\n"
+										+ "\t4) Sponsoreintrag erstellen\n"
+										+ "\t5) Sponsoreintrag loeschen");
+							}else {
+								System.out.println("Was moechten Sie tun?\n"
+										+ "\t1) Sponsoreintraege ausgeben\n"
+										+ "\t2) Sponsoreintrag erstellen\n"
+										+ "\t3) Sponsoreintrag loeschen");								
 							}
 							System.out.println("\t0) Exit\nEingabe: ");
 							auswahl2 = scan.nextInt();
 							if(currentUser instanceof Admin) {
 								switch(auswahl2) {
 									case 1: currentUser.printSponsorEntries(); break;
-									case 2: currentUser.addSponsorEntry(); break;
-									case 3: currentUser.deleteSponsorEntry(); break;
+									case 2: searchUser().printSponsorEntries(); break;
+									case 3: printAllSponsorEntries(); break;
+									case 4: currentUser.addSponsorEntry(); break;
+									case 5: currentUser.deleteSponsorEntry(); break;
 									case 0: break;
 									default: System.out.println("Falsche Eingabe");
 								}

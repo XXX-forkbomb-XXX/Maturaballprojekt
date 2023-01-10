@@ -4,16 +4,32 @@ public class SponsorEntry {
 	public static int counterId = 0;
 	private int id;
 	private Company company;
+	private User user;
 	private float amount;
 	
 	public SponsorEntry() {
-		
+		this.id = counterId;
+		counterId++;		
 	}
 	
-	public SponsorEntry(int id, Company company, float amount) {
-		this.id = id;
+	public SponsorEntry(int id, Company company, User user, float amount) {
+		this.id = counterId;
 		this.company = company;
+		this.user = user;
 		this.amount = amount;
+		counterId++;
+	}
+	
+	public void createSponsorEntry() {
+		
+		Scanner s = new Scanner(System.in);
+		
+		Company company = new Company();
+		company.createCompany();
+		this.setCompany(company);
+		this.user = Project.getCurrentUser();
+		System.out.printf("Daten des Sponsoreintrags: \nMenge: ");
+		this.setAmount(s.nextFloat());
 	}
 
 
@@ -23,6 +39,7 @@ public class SponsorEntry {
 				+ "Addresse: " + this.company.getAddress() + "\n"
 				+ "Email: " + this.company.getEmail() + "\n"
 				+ "Nummer: " + this.company.getNumber() + "\n"
+				+ "Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + " (" + this.user.getUsername() + ")\n"
 				+ "Betrag: " + this.amount + "\n");
 	}
 
@@ -40,6 +57,14 @@ public class SponsorEntry {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public float getAmount() {
