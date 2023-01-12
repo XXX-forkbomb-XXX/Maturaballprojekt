@@ -37,16 +37,7 @@ public abstract class Task {
 		System.out.println("Task-ID: " + this.id + "\n"
 				+ "Name: " + this.name + "\n"
 				+ "Beschreibung: " + this.description);
-		/*
-		if(company == null) {
-			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + " (" + this.user.getUsername() + ")");
-		}
-		else {
-			System.out.println("Daten Firma:\nName: " + this.company.getName() + "\n"
-					+ "Addresse: " + this.company.getAddress() + "\n"
-					+ "Email: " + this.company.getEmail() + "\n"
-					+ "Nummer: " + this.company.getNumber());
-		}*/
+
 		System.out.println("Kosten: " + this.costs.getAmount() + "\n"
 				+ "Bereits bezahlt: " + this.costs.isAlreadyPaid() + "\n"
 				+ "Fertig: " + this.finished);

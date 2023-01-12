@@ -23,13 +23,33 @@ public class CompanyTask extends Task{
 		this.setCompany(company);
 	}
 	
-	public void printCompanyTask() {
+	public void printTask() {
 		super.printTask();
 		System.out.println("Daten Firma:\nName: " + this.company.getName() + "\n"
 				+ "Addresse: " + this.company.getAddress() + "\n"
 				+ "Email: " + this.company.getEmail() + "\n"
-				+ "Nummer: " + this.company.getNumber());
+				+ "Nummer: " + this.company.getNumber() + "\n");
 	}
+	
+	public void changeCompany() {	
+		System.out.println("Geben Sie die Daten der neuen Firma ein:");
+		Company company = new Company();
+		company.createCompany();
+				
+		Scanner scan = new Scanner(System.in);
+		String confirm;
+		System.out.println("Moechten Sie die Firma von '" + this.getName() + "' zu " + company.getName() + "' aendern[w/f]");
+		confirm = scan.nextLine();
+		switch(confirm) {
+			case "w": 
+				this.setCompany(company);
+				System.out.println("Die Firma wurde auf '" + this.getName() + "' geandert"); 
+				break;
+			case "f": break;
+			default: System.out.println("Falsche Eingabe"); break;
+		}
+	}
+
 
 	public Company getCompany() {
 		return company;

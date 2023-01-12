@@ -30,8 +30,7 @@ public class User {
 	public void printUser() {
 		System.out.println("ID: " + this.getId() + "\n"
 				+ "Benutzername: " + this.getUsername() + "\n"
-				+ "Name: " + this.getFirstname() + " " + this.getSurname() + "\n"
-				+ "");
+				+ "Name: " + this.getFirstname() + " " + this.getSurname() + "\n");
 	}
 
 	public void addTask(Task t) {

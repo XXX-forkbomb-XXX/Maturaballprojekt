@@ -71,9 +71,9 @@ public class Admin extends User{
 		Project.getTasks().add(tmp);
 	}
 	
-	public void editUserTask() {
+	public void editUserTask(UserTask userTask) {
 		Scanner scan = new Scanner(System.in);
-		UserTask userTask = Project.searchUserTask();
+		String confirm;
 		if(userTask.getId() == 0) {
 			return;
 		}
@@ -88,14 +88,55 @@ public class Admin extends User{
 					+ "\t5) Benutzer\n"		
 					+ "\t0) Exit\nEingabe: ");
 			auswahl = scan.nextInt();
-			/*
+			scan.nextLine();
 			switch(auswahl) {
-				case 1: printUsers(); break;
-				case 2: ((Admin) currentUser).creatUser(); break;
-				case 3: ((Admin) currentUser).deleteUser(); break;
+				case 1: 
+					System.out.println("Geben Sie die neue Namen ein\nEingabe:");
+					String name = scan.nextLine();
+					System.out.println("Moechten Sie den Namen von '" + userTask.getName() + "' zu '" + name + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": userTask.setName(name); System.out.println("Name wurde zu '" + name + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 2:
+					System.out.println("Geben Sie die neue Beschreibung ein\nEingabe:");
+					String description = scan.nextLine();
+					System.out.println("Moechten Sie den Namen von '" + userTask.getDescription() + "' zu '" + description + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": userTask.setDescription(description); System.out.println("Beschreibung wurde zu '" + description + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 3: 
+					boolean finished = false;
+					String finishedS;
+					do {
+						System.out.println("Ist die Aufgabe beendet[w/f]?\nEingabe:");
+						finishedS = scan.nextLine();
+						switch(finishedS) {
+							case "w": finished = true; break;
+							case "f": finished = false; break;
+							default: System.out.println("Falsche Eingabe"); break;
+						}
+					}while(!finishedS.equals("w") && !finishedS.equals("f"));
+					System.out.println("Moechten Sie Fertig von '" + userTask.isFinished() + "' zu '" + finished + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": userTask.setFinished(finished); System.out.println("Fertig wurde zu '" + finished + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 4: userTask.getCosts().editCosts(); break;
+				case 5: userTask.changeUser(); break;
 				case 0: break;
 				default: System.out.println("Falsche Eingabe"); break;
-			*/
+			}
 		}while(auswahl != 0);
 	}
 	
@@ -129,9 +170,9 @@ public class Admin extends User{
 		Project.getCompanyTasks().add(t);
 	}
 	
-	public void editCompanyTask() {
+	public void editCompanyTask(CompanyTask companyTask) {
 		Scanner scan = new Scanner(System.in);
-		CompanyTask companyTask = Project.searchCompanyTask();
+		String confirm;
 		if(companyTask.getId() == 0) {
 			return;
 		}
@@ -146,14 +187,55 @@ public class Admin extends User{
 					+ "\t5) Firma\n"		
 					+ "\t0) Exit\nEingabe: ");
 			auswahl = scan.nextInt();
-			/*
+			scan.nextLine();
 			switch(auswahl) {
-				case 1: printUsers(); break;
-				case 2: ((Admin) currentUser).creatUser(); break;
-				case 3: ((Admin) currentUser).deleteUser(); break;
+				case 1: 
+					System.out.println("Geben Sie die neue Namen ein\nEingabe:");
+					String name = scan.nextLine();
+					System.out.println("Moechten Sie den Namen von '" + companyTask.getName() + "' zu '" + name + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": companyTask.setName(name); System.out.println("Name wurde zu '" + name + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 2:
+					System.out.println("Geben Sie die neue Beschreibung ein\nEingabe:");
+					String description = scan.nextLine();
+					System.out.println("Moechten Sie den Namen von '" + companyTask.getDescription() + "' zu '" + description + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": companyTask.setDescription(description); System.out.println("Beschreibung wurde zu '" + description + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 3: 
+					boolean finished = false;
+					String finishedS;
+					do {
+						System.out.println("Ist die Aufgabe beendet[w/f]?\nEingabe:");
+						finishedS = scan.nextLine();
+						switch(finishedS) {
+							case "w": finished = true; break;
+							case "f": finished = false; break;
+							default: System.out.println("Falsche Eingabe"); break;
+						}
+					}while(!finishedS.equals("w") && !finishedS.equals("f"));
+					System.out.println("Moechten Sie Fertig von '" + companyTask.isFinished() + "' zu '" + finished + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": companyTask.setFinished(finished); System.out.println("Fertig wurde zu '" + finished + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 4: companyTask.getCosts().editCosts(); break;
+				case 5: companyTask.changeCompany(); break;
 				case 0: break;
 				default: System.out.println("Falsche Eingabe"); break;
-			*/
+			}
 		}while(auswahl != 0);
 	}
 

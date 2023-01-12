@@ -292,7 +292,7 @@ public class Project {
 										case 2: searchUser().printTasks(); break;
 										case 3: printAllTasks(); break;
 										case 4: ((Admin) currentUser).addUserTask(); break;
-										case 5: ((Admin) currentUser).editUserTask(); break;
+										case 5: ((Admin) currentUser).editUserTask(Project.searchUserTask()); break;
 										case 6: ((Admin) currentUser).deleteUserTask(); break;
 										case 0: break;
 										default: System.out.println("Falsche Eingabe");
@@ -322,7 +322,7 @@ public class Project {
 								switch(auswahl2) {
 									case 1: printAllCompanyTasks(); break;
 									case 2: ((Admin) currentUser).addCompanyTask(); break;
-									case 3: ((Admin) currentUser).editCompanyTask(); break;
+									case 3: ((Admin) currentUser).editCompanyTask(Project.searchCompanyTask()); break;
 									case 4: ((Admin) currentUser).deleteCompanyTask(); break;
 									case 0: break;
 									default: System.out.println("Falsche Eingabe");

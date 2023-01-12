@@ -22,7 +22,7 @@ public class Costs {
 		String string;
 		//string = s.next();
 		do {
-			System.out.printf("Bereits Bezahlt[w/f]: ");
+			System.out.printf("Bereits bezahlt[w/f]: ");
 			string = s.next();
 			switch(string) {
 				case "w": this.setAlreadyPaid(true); break;
@@ -30,6 +30,62 @@ public class Costs {
 				default: System.out.println("Falsche Eingabe");
 			}
 		}while(!string.equals("w") && !string.equals("f"));
+	}
+	
+	public void printCosts() {
+		System.out.println(
+				"Menge: " + this.getAmount() + "\n"
+				+ "Bereits bezahlt: " + this.isAlreadyPaid() + "\n");
+	}
+	
+	public void editCosts() {
+		Scanner scan = new Scanner(System.in);
+		String confirm;
+		int auswahl = 0;
+		do {
+			this.printCosts();
+			System.out.println("Was moechten Sie aendern?\n"
+					+ "\t1) Menge\n"
+					+ "\t2) Bereits bezahlt\n"	
+					+ "\t0) Exit\nEingabe: ");
+			auswahl = scan.nextInt();
+			scan.nextLine();
+			switch(auswahl) {
+				case 1: 
+					System.out.println("Geben Sie die neuen Menge ein\nEingabe:");
+					float amount = scan.nextFloat();
+					System.out.println("Moechten Sie die Menge von '" + this.getAmount() + "' zu '" + amount + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": this.setAmount(amount); System.out.println("Menge wurde zu '" + amount + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 2: 
+					boolean alreadyPaid = false;
+					String alreadyPaidS;
+					do {
+						System.out.println("Sind die Kosten bereits bezahlt[w/f]?\nEingabe:");
+						alreadyPaidS = scan.nextLine();
+						switch(alreadyPaidS) {
+							case "w": alreadyPaid = true; break;
+							case "f": alreadyPaid = false; break;
+							default: System.out.println("Falsche Eingabe"); break;
+						}
+					}while(!alreadyPaidS.equals("w") && !alreadyPaidS.equals("f"));
+					System.out.println("Moechten Sie Bereits bezahlt von '" + this.isAlreadyPaid() + "' zu '" + alreadyPaid + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": this.setAlreadyPaid(alreadyPaid); System.out.println("Bereits bezahlt wurde zu '" + alreadyPaid + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 0: break;
+				default: System.out.println("Falsche Eingabe"); break;
+			}
+		}while(auswahl != 0);
 	}
 
 	public float getAmount() {
