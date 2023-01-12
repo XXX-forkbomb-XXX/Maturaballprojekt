@@ -1,41 +1,26 @@
 import java.util.Scanner;
 
-public class Task {
-	private static int counterId = 0;
-	private int id;
+public abstract class Task {
+	protected int id;
 	private String name;
 	private String description;
 	private boolean finished;
 	private Costs costs;
-	private User user;
-	private Company company;
+	private static int counterId = 1000;
 
 	public Task() {
 		this.id = counterId;
 		counterId++;
 	}
 	
-	public Task(String name, String description, boolean finished, Costs costs, User user){
+	public Task(String name, String description, boolean finished, Costs costs) {
 		this.name = name;
 		this.description = description;
 		this.finished = finished;
 		this.costs = costs;
-		this.user = user;
-		this.id = counterId;
-		counterId++;
 	}
 	
-	public Task(String name, String description, boolean finished, Costs costs, Company company) {		//21.12
-		this.name = name;
-		this.description = description;
-		this.finished = finished;
-		this.costs = costs;
-		this.company = company;
-		this.id = counterId;
-		counterId++;
-	}
-	
-	public void createTask(Company company) {
+	public void createTask() {
 		
 		Scanner s = new Scanner(System.in);
 		
@@ -46,27 +31,13 @@ public class Task {
 		Costs costs = new Costs();
 		costs.createCosts();
 		this.setCosts(costs);
-		this.setCompany(company);
-	}
-	
-	public void createTask(User user) {
-		
-		Scanner s = new Scanner(System.in);
-		
-		System.out.printf("Daten der Aufgabe: \nName: ");
-		this.setName(s.nextLine());
-		System.out.printf("Beschreibung: ");
-		this.setDescription(s.nextLine());
-		Costs costs = new Costs();
-		costs.createCosts();
-		this.setCosts(costs);
-		this.setUser(user);
 	}
 	
 	public void printTask() {
 		System.out.println("Task-ID: " + this.id + "\n"
 				+ "Name: " + this.name + "\n"
 				+ "Beschreibung: " + this.description);
+		/*
 		if(company == null) {
 			System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + " (" + this.user.getUsername() + ")");
 		}
@@ -75,11 +46,12 @@ public class Task {
 					+ "Addresse: " + this.company.getAddress() + "\n"
 					+ "Email: " + this.company.getEmail() + "\n"
 					+ "Nummer: " + this.company.getNumber());
-		}
+		}*/
 		System.out.println("Kosten: " + this.costs.getAmount() + "\n"
 				+ "Bereits bezahlt: " + this.costs.isAlreadyPaid() + "\n"
-				+ "Fertig: " + this.finished + "\n");
+				+ "Fertig: " + this.finished);
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -118,29 +90,5 @@ public class Task {
 
 	public void setCosts(Costs costs) {
 		this.costs = costs;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	public static int getCounterId() {
-		return counterId;
-	}
-
-	public static void setCounterId(int counterId) {
-		Task.counterId = counterId;
-	}
-
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
 	}
 }

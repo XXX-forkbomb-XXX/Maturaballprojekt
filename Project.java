@@ -8,27 +8,32 @@ import java.util.Scanner;
 public class Project {
 	private static ArrayList<User> users = new ArrayList<User>();
 	private static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
-	private static ArrayList<Task> tasks = new ArrayList<Task>();
-	private static ArrayList<Task> companyTasks = new ArrayList<Task>();
+	private static ArrayList<UserTask> tasks = new ArrayList<UserTask>();
+	private static ArrayList<CompanyTask> companyTasks = new ArrayList<CompanyTask>();
 	private static User currentUser;
 	
 	public static User searchUser() {
 		Scanner scan = new Scanner(System.in);
 		User tmp = new User();
 		boolean userFound = false;
+		String username;
 		do {
-			System.out.println("Geben Sie den Benutzernamen ein\nEingabe:");
-			String username = scan.nextLine();
+			System.out.println("Geben Sie den Benutzernamen ein oder '0' um die Suche zu beenden\nEingabe:");
+			username = scan.nextLine();
 			for(int i = 0; i < users.size(); i++) {
 				if(users.get(i).getUsername().equals(username)) {
 					tmp = users.get(i);
 					userFound = true;
 				}
 			}
-			if(!userFound) {
+			if(!userFound && !username.equals("0")) {
 				System.out.println("Benutzername wurde nicht gefunden");
 			}
-		}while(!userFound);	
+		}while(!userFound && !username.equals("0"));
+		if(username.equals("0")) {
+			tmp.setId(0);
+			return tmp;
+		}
 		return tmp;
 	}
 	
@@ -36,79 +41,101 @@ public class Project {
 		Scanner scan = new Scanner(System.in);
 		SponsorEntry tmp = new SponsorEntry();
 		boolean sponsorEntryFound = false;
+		int id;
 		do {
-			System.out.println("Geben Sie die Sponsoreintrag-Id ein\nEingabe:");
-			int id = scan.nextInt();
+			System.out.println("Geben Sie die Sponsoreintrag-Id ein oder '0' um die Suche zu beenden\nEingabe:");
+			id = scan.nextInt();
 			for(int i = 0; i < sponsorEntries.size(); i++) {
 				if(sponsorEntries.get(i).getId() == id) {
 					tmp = sponsorEntries.get(i);
 					sponsorEntryFound = true;
 				}
 			}
-			if(!sponsorEntryFound) {
+			if(!sponsorEntryFound && id != 0) {
 				System.out.println("Sponsoreintrag wurde nicht gefunden");
 			}
-		}while(!sponsorEntryFound);	
+		}while(!sponsorEntryFound && id != 0);	
+		if(id == 0) {
+			tmp.setId(0);
+			return tmp;
+		}
 		return tmp;
 	}
 	
-	public static Task searchTask() {
+	public static UserTask searchUserTask() {
 		Scanner scan = new Scanner(System.in);
-		Task tmp = new Task();
+		UserTask tmp = new UserTask();
 		boolean taskFound = false;
+		int id;
 		do {
-			System.out.println("Geben Sie die Task-Id ein\nEingabe:");
-			int id = scan.nextInt();
+			System.out.println("Geben Sie die Task-Id ein oder '0' um die Suche zu beenden\nEingabe:");
+			id = scan.nextInt();
 			for(int i = 0; i < tasks.size(); i++) {
 				if(tasks.get(i).getId() == id) {
 					tmp = tasks.get(i);
 					taskFound = true;
 				}
 			}
-			if(!taskFound) {
+			if(!taskFound && id != 0) {
 				System.out.println("Aufgabe wurde nicht gefunden");
 			}
-		}while(!taskFound);	
+		}while(!taskFound && id != 0);	
+		if(id == 0) {
+			tmp.setId(0);
+			return tmp;
+		}
 		return tmp;
 	}
 	
+	/*
 	public static Task searchTask(User u) {
 		Scanner scan = new Scanner(System.in);
 		Task tmp = new Task();
 		boolean taskFound = false;
+		int id;
 		do {
-			System.out.println("Geben Sie die Task-Id ein\nEingabe:");
-			int id = scan.nextInt();
+			System.out.println("Geben Sie die Task-Id ein oder '0' um die Suche zu beenden\nEingabe:");
+			id = scan.nextInt();
 			for(int i = 0; i < tasks.size(); i++) {
 				if(tasks.get(i).getId() == id) {
 					tmp = tasks.get(i);
 					taskFound = true;
 				}
 			}
-			if(!taskFound) {
+			if(!taskFound && id != 0) {
 				System.out.println("Aufgabe wurde nicht gefunden");
 			}
-		}while(!taskFound);	
+		}while(!taskFound && id != 0);	
+		if(id == 0) {
+			tmp.setId(0);
+			return tmp;
+		}
 		return tmp;
 	}
+	*/
 	
-	public static Task searchCompanyTask() {
+	public static CompanyTask searchCompanyTask() {
 		Scanner scan = new Scanner(System.in);
-		Task tmp = new Task();
+		CompanyTask tmp = new CompanyTask();
 		boolean taskFound = false;
+		int id;
 		do {
-			System.out.println("Geben Sie die Task-Id ein\nEingabe:");
-			int id = scan.nextInt();
+			System.out.println("Geben Sie die Task-Id ein oder '0' um die Suche zu beenden\nEingabe:");
+			id = scan.nextInt();
 			for(int i = 0; i < companyTasks.size(); i++) {
 				if(companyTasks.get(i).getId() == id) {
 					tmp = companyTasks.get(i);
 					taskFound = true;
 				}
 			}
-			if(!taskFound) {
+			if(!taskFound && id != 0) {
 				System.out.println("Firmenbezogene Aufgabe wurde nicht gefunden");
 			}
-		}while(!taskFound);	
+		}while(!taskFound && id != 0);	
+		if(id == 0) {
+			tmp.setId(0);
+			return tmp;
+		}
 		return tmp;
 	}
 	
@@ -134,10 +161,13 @@ public class Project {
 		Scanner scan = new Scanner(System.in);
 		User tmp = new User();
 		boolean correct = false;
+		
 		do{
 			tmp = searchUser();
-			correct = checkPassword(tmp);
-		}while(!correct);
+			if(!(tmp.getId() == 0)) {
+				correct = checkPassword(tmp);
+			}
+		}while(!correct && !tmp.equals(null));
 		System.out.println("\nWillkommen " + tmp.getUsername());
 		return tmp;
 	}
@@ -250,7 +280,8 @@ public class Project {
 											"\t2) Aufgaben eines Benutzers ausgeben\n"
 											+ "\t3) Aufgaben aller Benutzer ausgeben\n"
 											+ "\t4) Aufgabe erstellen\n"
-											+ "\t5) Aufgabe loeschen");
+											+ "\t5) Aufgabe bearbeiten\n"
+											+ "\t6) Aufgabe loeschen");
 								}
 								System.out.println("\t0) Exit\nEingabe: ");
 								auswahl2 = scan.nextInt();
@@ -260,8 +291,9 @@ public class Project {
 										case 1: currentUser.printTasks(); break;
 										case 2: searchUser().printTasks(); break;
 										case 3: printAllTasks(); break;
-										case 4: ((Admin) currentUser).giveTask(); break;
-										case 5: ((Admin) currentUser).deleteTask(); break;
+										case 4: ((Admin) currentUser).addUserTask(); break;
+										case 5: ((Admin) currentUser).editUserTask(); break;
+										case 6: ((Admin) currentUser).deleteUserTask(); break;
 										case 0: break;
 										default: System.out.println("Falsche Eingabe");
 									}									
@@ -281,7 +313,8 @@ public class Project {
 							if (currentUser instanceof Admin) {
 								System.out.println(
 										"\t2) Firmenbezogene Aufgabe erstellen\n"
-										+ "\t3) Firmenbezogene Aufgabe loeschen");
+										+ "3) Firmenbezogene Aufgabe bearbeiten\n"
+										+ "\t4) Firmenbezogene Aufgabe loeschen");
 							}
 							System.out.println("\t0) Exit\nEingabe: ");
 							auswahl2 = scan.nextInt();
@@ -289,7 +322,8 @@ public class Project {
 								switch(auswahl2) {
 									case 1: printAllCompanyTasks(); break;
 									case 2: ((Admin) currentUser).addCompanyTask(); break;
-									case 3: ((Admin) currentUser).deleteCompanyTask(); break;
+									case 3: ((Admin) currentUser).editCompanyTask(); break;
+									case 4: ((Admin) currentUser).deleteCompanyTask(); break;
 									case 0: break;
 									default: System.out.println("Falsche Eingabe");
 								}
@@ -406,19 +440,19 @@ public class Project {
 		Project.sponsorEntries = sponsorEntries;
 	}
 
-	public static ArrayList<Task> getTasks() {
+	public static ArrayList<UserTask> getTasks() {
 		return tasks;
 	}
 
-	public static void setTasks(ArrayList<Task> tasks) {
+	public static void setTasks(ArrayList<UserTask> tasks) {
 		Project.tasks = tasks;
 	}
 
-	public static ArrayList<Task> getCompanyTasks() {
+	public static ArrayList<CompanyTask> getCompanyTasks() {
 		return companyTasks;
 	}
 
-	public static void setCompanyTasks(ArrayList<Task> companyTask) {
+	public static void setCompanyTasks(ArrayList<CompanyTask> companyTask) {
 		Project.companyTasks = companyTask;
 	}
 

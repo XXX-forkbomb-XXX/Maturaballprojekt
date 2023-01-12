@@ -1,5 +1,7 @@
 import java.util.ArrayList;
-import java.util.Scanner;		//19.12
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
 	private String firstname;
@@ -7,7 +9,7 @@ public class User {
 	private String username;
 	private String password;
 	private int id;
-	private static int counterId = 0; 
+	private static int counterId = 1000; 
 	private ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 	
@@ -51,7 +53,13 @@ public class User {
 	
 	public void deleteSponsorEntry() {
 		User u = Project.searchUser();
+		if(u.getId() == 0) {
+			return;
+		}
 		SponsorEntry se = Project.searchSponsorEntry(u);
+		if(se.getId() == 0) {
+			return;
+		}
 		for(int i = 0; i < Project.getSponsorEntries().size(); i++) {
 			if(Project.getSponsorEntries().get(i).getId() == se.getId()) {
 				se = Project.getSponsorEntries().get(i);
@@ -74,6 +82,15 @@ public class User {
 		}
 	}
 	
+	public boolean controlRegex(String password) {
+	    String PASSWORD_PATTERN =
+	            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+
+	    Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+		Matcher matcher = pattern.matcher(password);
+		return matcher.matches();
+	}
+	
 	public void resetPassword() { // 21.12
 		String password,passwordA, passwordW;
 		Scanner scan = new Scanner(System.in);
@@ -85,8 +102,17 @@ public class User {
 			}
 		}while(!passwordA.equals(this.getPassword()));
 		do {
-			System.out.println("Neues Passwort\nEingabe: ");
-			password = scan.nextLine();
+			do {
+				System.out.println("Neues Passwort\nEingabe: ");
+				password = scan.nextLine();
+				if(!controlRegex(password)) {
+					System.out.println("Das Passwort stimmt nicht mit folgender Regex ueberein:\n"
+							+ "\tDas Passwort muss mindestens eine Zahl enthalten\n"
+							+ "\tDas Passwort muss mindestens einen Großbuchstaben, sowie eine Kleinbuchstaben enthalten\n"
+							+ "\tDas Passwort muss ein Sonderzeichen enthalten"
+							+ "\tDas Passwort muss eine Laenge von 8 bis 20 Zeichen besitzen");
+				}
+			}while(!controlRegex(password));
 			System.out.println("Neues Passwort bestätigen\nEingabe: ");
 			passwordW = scan.nextLine();
 			if(!password.equals(passwordW)) {

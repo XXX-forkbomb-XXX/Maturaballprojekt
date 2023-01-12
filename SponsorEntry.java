@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class SponsorEntry {
-	public static int counterId = 0;
+	public static int counterId = 1000;
 	private int id;
 	private Company company;
 	private User user;
