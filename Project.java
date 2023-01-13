@@ -521,7 +521,7 @@ public class Project {
 					break;
 				}					
 			}
-		}while(auswahl != 0 && currentUser != null);
+		}while(auswahl != 0 && currentUser != null && finished == false);
 	}
 		
 		fillFiles();
