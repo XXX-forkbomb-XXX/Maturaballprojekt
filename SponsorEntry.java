@@ -33,7 +33,7 @@ public class SponsorEntry {
 	}
 
 
-	public void printSponsorEntry() {				//19.12
+	public void printSponsorEntry() {			
 		System.out.println("Sponsoreintrag-ID: " + this.getId() + "\n"
 				+ "Unternehmen: " + this.company.getName() + "\n"
 				+ "Addresse: " + this.company.getAddress() + "\n"
@@ -74,4 +74,9 @@ public class SponsorEntry {
 	public void setAmount(float amount) {
 		this.amount = amount;
 	}
+
+	public String toString() {
+		return(id + ";" + company.toString() + user.toString() + ";" + amount );
+	}	
+	
 }

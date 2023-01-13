@@ -104,4 +104,8 @@ public class Costs {
 		this.alreadyPaid = alreadyPaid;
 	}
 
+	public String toString() {
+		return(amount + ";" + alreadyPaid);
+	}
+	
 }

@@ -82,4 +82,9 @@ public abstract class Task {
 	public void setCosts(Costs costs) {
 		this.costs = costs;
 	}
+
+	public String toString() {
+		return id + ";" + name + ";" + description + ";" + finished + ";" + costs.toString();
+	}
+	
 }

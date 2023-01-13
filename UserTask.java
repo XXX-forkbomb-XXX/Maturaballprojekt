@@ -25,7 +25,7 @@ public class UserTask extends Task{
 		this.setUser(user);
 	}
 	
-	public void printTask() {
+	public void printUserTask() {
 		super.printTask();
 		System.out.println("Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + " (" + this.user.getUsername() + ")\n");
 	}
@@ -72,5 +72,9 @@ public class UserTask extends Task{
 
 	public static void setCounterId(int counterId) {
 		UserTask.counterId = counterId;
+	}
+	
+	public String toString() {
+		return(super.toString() + ";" + user.toString());
 	}
 }

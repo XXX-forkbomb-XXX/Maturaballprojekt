@@ -66,4 +66,9 @@ public class CompanyTask extends Task{
 	public static void setCounterId(int counterId) {
 		CompanyTask.counterId = counterId;
 	}
+
+	public String toString() {
+		return(super.toString() + ";" + company);
+	}	
+	
 }

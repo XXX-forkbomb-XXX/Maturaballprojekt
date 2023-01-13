@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -246,6 +249,97 @@ public class Project {
 				+ "Gesamt: " + calculateTotal() + "\n");
 	}
 	
+	public static void fillFiles() {
+		System.out.println(" ");
+		try {
+			FileWriter sponsorEntryFileWriter = new FileWriter("SponsorEntry.csv");
+			FileWriter userFileWriter = new FileWriter("UserFile.csv");
+			FileWriter taskFileWriter = new FileWriter("TaskFile.csv");
+			
+			BufferedWriter writeFile = null;
+			
+			writeFile = new BufferedWriter(sponsorEntryFileWriter);
+			
+			for(int i = 0; i < sponsorEntries.size(); i++) {
+				writeFile.write(sponsorEntries.get(i).toString());
+				writeFile.newLine();
+			}
+			 
+			writeFile.close();
+			
+			writeFile = new BufferedWriter(userFileWriter);
+			
+			for(int i = 0; i < users.size(); i++) {
+				writeFile.write(users.get(i).toString());
+				writeFile.newLine();
+			}
+			
+			writeFile.close();
+			
+			writeFile = new BufferedWriter(taskFileWriter);
+			
+			for(int i = 0; i < tasks.size(); i++) {	
+				writeFile.write(tasks.get(i).toString());
+				writeFile.newLine();
+			}
+			
+			writeFile.close();
+	
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void loadData() {
+		try {
+			FileReader sponsorEntryReader = new FileReader("SponsorEntry.csv");
+			FileReader userReader = new FileReader("UserFile.csv");
+			FileReader tasksReader = new FileReader("TaskFile.csv");
+			String readString;
+			String data[] = null;
+			
+			BufferedReader readFile = null;
+			
+			readFile = new BufferedReader(sponsorEntryReader);
+			while((readString = readFile.readLine()) != null) {
+				data = readString.split(";");
+				Company c = new Company(data[1], data[2], data[3], data[4]);
+				User u = new User(data[5], data[6], data[7], data[8]);
+				int id = Integer.valueOf(data[0]);
+				float amount = Float.valueOf(data[9]);
+				SponsorEntry sponsorData = new SponsorEntry(id, c, u, amount);
+				sponsorEntries.add(sponsorData);
+			}
+			
+			readFile.close();
+			
+			readFile = new BufferedReader(userReader);
+			while((readString = readFile.readLine()) != null) {
+				data = readString.split(";");
+				int id = Integer.valueOf(data[4]);
+				User userData = new User(data[0], data[1], data[2], data[3]);
+				userData.setId(id);
+				users.add(userData);
+			}
+			
+			readFile.close();
+			
+			readFile = new BufferedReader(tasksReader);
+			while((readString = readFile.readLine()) != null) {
+				data = readString.split(";");
+				int id = Integer.valueOf(data[4]);
+				User userData = new User(data[0], data[1], data[2], data[3]);
+				userData.setId(id);
+				users.add(userData);
+			}
+			
+			readFile.close();
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
 		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
@@ -253,8 +347,12 @@ public class Project {
 		
 		users.add(mosjula);
 		users.add(grualea);
+		
+		loadData();
+		
+		boolean finished = false;
 
-		while(true) {
+		while(finished == false) {
 			currentUser = logIn();
 			int auswahl;
 			int auswahl2;
@@ -268,160 +366,166 @@ public class Project {
 				if (currentUser instanceof Admin) {
 					System.out.println("\t5) Benutzer");
 				}
-				System.out.println("\t0) Ausloggen\nEingabe: ");
+				System.out.println("\t0) Ausloggen\n"
+						+ "\t-1) Programm beenden\n"
+						+ "Eingabe: ");
 				auswahl = scan.nextInt();
 				switch(auswahl) {
+					case -1: finished = true; break;
 					case 1:
-							do {
-								System.out.println("Was moechten Sie tun?\n"
-										+ "\t1) Meine Aufgaben ausgeben");
-								if (currentUser instanceof Admin) {
-									System.out.println(
-											"\t2) Aufgaben eines Benutzers ausgeben\n"
-											+ "\t3) Aufgaben aller Benutzer ausgeben\n"
-											+ "\t4) Aufgabe erstellen\n"
-											+ "\t5) Aufgabe bearbeiten\n"
-											+ "\t6) Aufgabe loeschen");
-								}
-								System.out.println("\t0) Exit\nEingabe: ");
-								auswahl2 = scan.nextInt();
-
-								if(currentUser instanceof Admin) {
-									switch(auswahl2) {
-										case 1: currentUser.printTasks(); break;
-										case 2: searchUser().printTasks(); break;
-										case 3: printAllTasks(); break;
-										case 4: ((Admin) currentUser).addUserTask(); break;
-										case 5: ((Admin) currentUser).editUserTask(Project.searchUserTask()); break;
-										case 6: ((Admin) currentUser).deleteUserTask(); break;
-										case 0: break;
-										default: System.out.println("Falsche Eingabe");
-									}									
-								}else{
-									switch(auswahl2) {
-										case 1: currentUser.printTasks(); break;
-										case 0: break;
-										default: System.out.println("Falsche Eingabe");
-									}
-								}
-							}while(auswahl2 != 0 && currentUser != null);
-					break;
-					case 2:
 						do {
 							System.out.println("Was moechten Sie tun?\n"
-									+ "\t1) Firmenbezogene Aufgaben ausgeben");
+									+ "\t1) Meine Aufgaben ausgeben");
 							if (currentUser instanceof Admin) {
 								System.out.println(
-										"\t2) Firmenbezogene Aufgabe erstellen\n"
-										+ "3) Firmenbezogene Aufgabe bearbeiten\n"
-										+ "\t4) Firmenbezogene Aufgabe loeschen");
+										"\t2) Aufgaben eines Benutzers ausgeben\n"
+										+ "\t3) Aufgaben aller Benutzer ausgeben\n"
+										+ "\t4) Aufgabe erstellen\n"
+										+ "\t5) Aufgabe bearbeiten\n"
+										+ "\t6) Aufgabe loeschen");
 							}
 							System.out.println("\t0) Exit\nEingabe: ");
 							auswahl2 = scan.nextInt();
+
 							if(currentUser instanceof Admin) {
 								switch(auswahl2) {
-									case 1: printAllCompanyTasks(); break;
-									case 2: ((Admin) currentUser).addCompanyTask(); break;
-									case 3: ((Admin) currentUser).editCompanyTask(Project.searchCompanyTask()); break;
-									case 4: ((Admin) currentUser).deleteCompanyTask(); break;
+									case 1: currentUser.printTasks(); break;
+									case 2: searchUser().printTasks(); break;
+									case 3: printAllTasks(); break;
+									case 4: ((Admin) currentUser).addUserTask(); break;
+									case 5: ((Admin) currentUser).editUserTask(Project.searchUserTask()); break;
+									case 6: ((Admin) currentUser).deleteUserTask(); break;
 									case 0: break;
 									default: System.out.println("Falsche Eingabe");
-								}
+								}									
 							}else{
 								switch(auswahl2) {
-									case 1: printAllCompanyTasks(); break;
+									case 1: currentUser.printTasks(); break;
 									case 0: break;
 									default: System.out.println("Falsche Eingabe");
 								}
 							}
 						}while(auswahl2 != 0 && currentUser != null);
-					break;
-					case 3:
-						do {
-							if (currentUser instanceof Admin) {
-								System.out.println("Was moechten Sie tun?\n"
-										+ "\t1) Meine Sponsoreintraege ausgeben\n"
-										+ "\t2) Sponsoreintraege eines Benutzers ausgeben\n"
-										+ "\t3) Sponsoreintraege aller Benutzer ausgeben\n"
-										+ "\t4) Sponsoreintrag erstellen\n"
-										+ "\t5) Sponsoreintrag loeschen");
-							}else {
-								System.out.println("Was moechten Sie tun?\n"
-										+ "\t1) Sponsoreintraege ausgeben\n"
-										+ "\t2) Sponsoreintrag erstellen\n"
-										+ "\t3) Sponsoreintrag loeschen");								
+				break;
+				case 2:
+					do {
+						System.out.println("Was moechten Sie tun?\n"
+								+ "\t1) Firmenbezogene Aufgaben ausgeben");
+						if (currentUser instanceof Admin) {
+							System.out.println(
+									"\t2) Firmenbezogene Aufgabe erstellen\n"
+									+ "3) Firmenbezogene Aufgabe bearbeiten\n"
+									+ "\t4) Firmenbezogene Aufgabe loeschen");
+						}
+						System.out.println("\t0) Exit\nEingabe: ");
+						auswahl2 = scan.nextInt();
+						if(currentUser instanceof Admin) {
+							switch(auswahl2) {
+								case 1: printAllCompanyTasks(); break;
+								case 2: ((Admin) currentUser).addCompanyTask(); break;
+								case 3: ((Admin) currentUser).editCompanyTask(Project.searchCompanyTask()); break;
+								case 4: ((Admin) currentUser).deleteCompanyTask(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe");
 							}
-							System.out.println("\t0) Exit\nEingabe: ");
-							auswahl2 = scan.nextInt();
-							if(currentUser instanceof Admin) {
-								switch(auswahl2) {
-									case 1: currentUser.printSponsorEntries(); break;
-									case 2: searchUser().printSponsorEntries(); break;
-									case 3: printAllSponsorEntries(); break;
-									case 4: currentUser.addSponsorEntry(); break;
-									case 5: currentUser.deleteSponsorEntry(); break;
-									case 0: break;
-									default: System.out.println("Falsche Eingabe");
-								}
-							}else{
-								switch(auswahl2) {
-									case 1: currentUser.printSponsorEntries(); break;
-									case 2: currentUser.addSponsorEntry(); break;
-									case 3: currentUser.deleteSponsorEntry(); break;
-									case 0: break;
-									default: System.out.println("Falsche Eingabe");
-								}
+						}else{
+							switch(auswahl2) {
+								case 1: printAllCompanyTasks(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe");
 							}
-						}while(auswahl2 != 0 && currentUser != null);
-					break;
-					case 4:
-						do {
+						}
+					}while(auswahl2 != 0 && currentUser != null);
+				break;
+				case 3:
+					do {
+						if (currentUser instanceof Admin) {
 							System.out.println("Was moechten Sie tun?\n"
-									+ "\t1) Passwort zuruecksetzen");
-							if (currentUser instanceof Admin) {
-								
+									+ "\t1) Meine Sponsoreintraege ausgeben\n"
+									+ "\t2) Sponsoreintraege eines Benutzers ausgeben\n"
+									+ "\t3) Sponsoreintraege aller Benutzer ausgeben\n"
+									+ "\t4) Sponsoreintrag erstellen\n"
+									+ "\t5) Sponsoreintrag loeschen");
+						}else {
+							System.out.println("Was moechten Sie tun?\n"
+									+ "\t1) Sponsoreintraege ausgeben\n"
+									+ "\t2) Sponsoreintrag erstellen\n"
+									+ "\t3) Sponsoreintrag loeschen");								
+						}
+						System.out.println("\t0) Exit\nEingabe: ");
+						auswahl2 = scan.nextInt();
+						if(currentUser instanceof Admin) {
+							switch(auswahl2) {
+								case 1: currentUser.printSponsorEntries(); break;
+								case 2: searchUser().printSponsorEntries(); break;
+								case 3: printAllSponsorEntries(); break;
+								case 4: currentUser.addSponsorEntry(); break;
+								case 5: currentUser.deleteSponsorEntry(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe");
 							}
-							System.out.println("\t0) Exit\nEingabe: ");
+						}else{
+							switch(auswahl2) {
+								case 1: currentUser.printSponsorEntries(); break;
+								case 2: currentUser.addSponsorEntry(); break;
+								case 3: currentUser.deleteSponsorEntry(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe");
+							}
+						}
+					}while(auswahl2 != 0 && currentUser != null);
+				break;
+				case 4:
+					do {
+						System.out.println("Was moechten Sie tun?\n"
+								+ "\t1) Passwort zuruecksetzen");
+						if (currentUser instanceof Admin) {
+							
+						}
+						System.out.println("\t0) Exit\nEingabe: ");
+						auswahl2 = scan.nextInt();
+						if(currentUser instanceof Admin) {
+							switch(auswahl2) {
+								case 1: currentUser.resetPassword(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe");
+							}
+						}else{
+							switch(auswahl2) {
+								case 1: currentUser.resetPassword(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe");
+							}
+						}
+					}while(auswahl2 != 0 && currentUser != null);
+				break;
+			}
+			if(currentUser instanceof Admin) {
+				switch(auswahl) {
+					case 5:
+						do {
+							System.out.println(""
+									+ "\t1) Alle Benutzer ausgeben\n"
+									+ "\t2) Benutzer erstellen\n"
+									+ "\t3) Benutzer loeschen\n"
+									+ "\t0) Exit\nEingabe: ");
 							auswahl2 = scan.nextInt();
-							if(currentUser instanceof Admin) {
-								switch(auswahl2) {
-									case 1: currentUser.resetPassword(); break;
-									case 0: break;
-									default: System.out.println("Falsche Eingabe");
-								}
-							}else{
-								switch(auswahl2) {
-									case 1: currentUser.resetPassword(); break;
-									case 0: break;
-									default: System.out.println("Falsche Eingabe");
-								}
+							switch(auswahl2) {
+								case 1: printUsers(); break;
+								case 2: ((Admin) currentUser).creatUser(); break;
+								case 3: ((Admin) currentUser).deleteUser(); break;
+								case 0: break;
+								default: System.out.println("Falsche Eingabe"); break;
 							}
 						}while(auswahl2 != 0 && currentUser != null);
 					break;
-				}
-				if(currentUser instanceof Admin) {
-					switch(auswahl) {
-						case 5:
-							do {
-								System.out.println(""
-										+ "\t1) Alle Benutzer ausgeben\n"
-										+ "\t2) Benutzer erstellen\n"
-										+ "\t3) Benutzer loeschen\n"
-										+ "\t0) Exit\nEingabe: ");
-								auswahl2 = scan.nextInt();
-								switch(auswahl2) {
-									case 1: printUsers(); break;
-									case 2: ((Admin) currentUser).creatUser(); break;
-									case 3: ((Admin) currentUser).deleteUser(); break;
-									case 0: break;
-									default: System.out.println("Falsche Eingabe"); break;
-								}
-							}while(auswahl2 != 0 && currentUser != null);
-						break;
-					}					
-				}
-			}while(auswahl != 0 && currentUser != null);
-		}
+				}					
+			}
+		}while(auswahl != 0 && currentUser != null);
+	}
+		
+		fillFiles();
+		
 	}
 
 	public static ArrayList<User> getUsers() {
@@ -463,6 +567,5 @@ public class Project {
 	public static void setCurrentUser(User currentUser) {
 		Project.currentUser = currentUser;
 	}
-	
 	
 }

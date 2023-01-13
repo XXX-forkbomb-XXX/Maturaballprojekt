@@ -72,5 +72,8 @@ public class Company {
 	public void setTasks(ArrayList<Task> tasks) {
 		this.tasks = tasks;
 	}
-	
+
+	public String toString() {
+		return(name + ";" + address + ";" + email + ";" + number);
+	}
 }

@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Scanner;		
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -179,14 +179,8 @@ public class User {
 		this.sponsorEntries = sponsorEntries;
 	}
 
-	public static int getCounterId() {
-		return counterId;
+	public String toString() {
+		return(firstname + ";" + surname + ";" + username + ";" + password + ";" + id);
 	}
-
-	public static void setCounterId(int counterId) {
-		User.counterId = counterId;
-	}
-	
-	
 
 }
