@@ -270,6 +270,12 @@ public class Project {
 			writeFile = new BufferedWriter(userFileWriter);
 			
 			for(int i = 0; i < users.size(); i++) {
+				if(users.get(i) instanceof Admin) {
+					writeFile.write("Admin");
+				}else {
+					writeFile.write("User");
+				}
+				writeFile.append(";");
 				writeFile.write(users.get(i).toString());
 				writeFile.newLine();
 			}
@@ -316,10 +322,17 @@ public class Project {
 			readFile = new BufferedReader(userReader);
 			while((readString = readFile.readLine()) != null) {
 				data = readString.split(";");
-				int id = Integer.valueOf(data[4]);
-				User userData = new User(data[0], data[1], data[2], data[3]);
-				userData.setId(id);
-				users.add(userData);
+				int id = Integer.valueOf(data[5]);
+				if(data[0].equals("Admin")) {
+					Admin admin = new Admin(data[1], data[2], data[3], data[4]);
+					admin.setId(id);
+					users.add(admin);
+				}else {
+					User user = new User(data[1], data[2], data[3], data[4]);
+					user.setId(id);
+					users.add(user);
+				}				
+				
 			}
 			
 			readFile.close();
@@ -342,11 +355,13 @@ public class Project {
 	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
+		/*
 		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
 		Admin grualea = new Admin("Alex", "Gruber", "grualea", "83f32");
 		
 		users.add(mosjula);
 		users.add(grualea);
+		*/
 		
 		loadData();
 		

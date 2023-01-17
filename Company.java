@@ -19,18 +19,20 @@ public class Company {
 		this.number = number;
 	}
 	
-	public void createCompany() {
+	public static Company createCompany() {
 		
 		Scanner s = new Scanner(System.in);
 		
 		System.out.printf("Daten der Firma: \nName: ");
-		this.setName(s.nextLine());
+		String name = s.nextLine();
 		System.out.printf("Addresse: ");
-		this.setAddress(s.nextLine());
+		String address = s.nextLine();
 		System.out.printf("Email: ");
-		this.setEmail(s.nextLine());
+		String email = s.nextLine();
 		System.out.printf("Nummer: ");
-		this.setNumber(s.nextLine());
+		String number = s.nextLine();
+		Company company = new Company(name, address, email, number);
+		return company;
 	}
 
 	public String getName() {

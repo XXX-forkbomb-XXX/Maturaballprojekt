@@ -18,18 +18,18 @@ public class Admin extends User{
 
 	public void creatUser() { //21.12
 		Scanner s = new Scanner(System.in);
-		User tmp = new User();
+		User user = new User();
 		boolean correct = false;
 		do {
-			System.out.println("Gib einen Vorname, Nachnamen, Benutzername und Passwort ein");
-			tmp = new User(s.nextLine(), s.nextLine(), s.nextLine(), s.nextLine());
-			if(usernameAlreadyExists(tmp.getUsername())) {
+
+			user = createUser();
+			if(usernameAlreadyExists(user.getUsername())) {
 				System.out.println("Benutzername ist bereits vergeben");				
 			}else {
 				correct = true;
 			}
 		}while(!correct);
-		Project.getUsers().add(tmp);
+		Project.getUsers().add(user);
 	}
 	
 	public void deleteUser() { // 21.12

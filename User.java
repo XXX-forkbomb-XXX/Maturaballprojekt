@@ -22,9 +22,32 @@ public class User {
 		this.firstname = firstname;
 		this.surname = surname;
 		this.username = username;
-		this.password = password;
+		this.password = "Password";
 		this.id = counterId;
 		counterId++;
+	}
+	
+	public static User createUser() {
+		
+		Scanner s = new Scanner(System.in);
+		String string;
+		
+		System.out.printf("Daten des Users: \nVorname: ");
+		String firstName = s.nextLine();
+		System.out.printf("Nachname: ");
+		String surName = s.nextLine();
+		System.out.printf("Nachname: ");
+		String username = s.nextLine();
+		do {
+			System.out.printf("Soll der User Adminstatus erhalten[w/f]: ");
+			string = s.next();
+			switch(string) {
+				case "w": User user = new User(firstName, surName, username, "Password"); return user; 
+				case "f": Admin admin = new Admin(firstName, surName, username, "Password"); return admin; 
+				default: System.out.println("Falsche Eingabe");
+			}
+		}while(!string.equals("w") && !string.equals("f"));
+		return null;
 	}
 	
 	public void printUser() {

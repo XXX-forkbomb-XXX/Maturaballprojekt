@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public abstract class Task {
+public class Task {
 	protected int id;
 	private String name;
 	private String description;
@@ -20,17 +20,17 @@ public abstract class Task {
 		this.costs = costs;
 	}
 	
-	public void createTask() {
+	public static Task createTask() {
 		
 		Scanner s = new Scanner(System.in);
 		
 		System.out.printf("Daten der Aufgabe: \nName: ");
-		this.setName(s.nextLine());
+		String name = s.nextLine();
 		System.out.printf("Beschreibung: ");
-		this.setDescription(s.nextLine());
-		Costs costs = new Costs();
-		costs.createCosts();
-		this.setCosts(costs);
+		String description = s.nextLine();
+		Costs costs = Costs.createCosts();
+		Task task = new Task(name, description, false, costs);
+		return task; 
 	}
 	
 	public void printTask() {

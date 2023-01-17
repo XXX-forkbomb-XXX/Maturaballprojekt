@@ -16,11 +16,11 @@ public class CompanyTask extends Task{
 		counterId++;
 	}
 	
-	public void createCompanyTask() {
-		super.createTask();
-		Company company = new Company();
-		company.createCompany();
-		this.setCompany(company);
+	public static CompanyTask createCompanyTask() {
+		Task t = Task.createTask();
+		Company company = Company.createCompany();
+		CompanyTask cT = new CompanyTask(t.getName(), t.getDescription(), t.isFinished(), t.getCosts(), company);
+		return cT;
 	}
 	
 	public void printTask() {

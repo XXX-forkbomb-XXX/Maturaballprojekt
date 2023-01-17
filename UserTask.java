@@ -16,13 +16,11 @@ public class UserTask extends Task{
 		counterId++;
 	}
 	
-	public void createUserTask() {
-		super.createTask();
-		User user = Project.searchUser();
-		if(user.getId() == 0) {
-			return;
-		}
-		this.setUser(user);
+	public static UserTask createUserTask() {
+		Task t = Task.createTask();
+		User user = User.createUser();
+		UserTask uT = new UserTask(t.getName(), t.getDescription(), t.isFinished(), t.getCosts(), user);
+		return uT;
 	}
 	
 	public void printUserTask() {

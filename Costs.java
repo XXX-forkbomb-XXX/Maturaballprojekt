@@ -13,23 +13,26 @@ public class Costs {
 		
 	}
 
-	public void createCosts() {
+	public static Costs createCosts() {
 		
 		Scanner s = new Scanner(System.in);
 		
 		System.out.printf("Daten der Kosten: \nMenge: ");
-		this.setAmount(s.nextFloat());
+		float amount = s.nextFloat();
 		String string;
-		//string = s.next();
+		boolean isAlreadyPaid = false;
+		string = s.next();
 		do {
 			System.out.printf("Bereits bezahlt[w/f]: ");
 			string = s.next();
 			switch(string) {
-				case "w": this.setAlreadyPaid(true); break;
-				case "f": this.setAlreadyPaid(false); break;
+				case "w": isAlreadyPaid = true; break;
+				case "f": isAlreadyPaid = false; break;
 				default: System.out.println("Falsche Eingabe");
 			}
 		}while(!string.equals("w") && !string.equals("f"));
+		Costs costs = new Costs(amount, isAlreadyPaid);
+		return costs;
 	}
 	
 	public void printCosts() {
