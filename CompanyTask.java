@@ -68,7 +68,7 @@ public class CompanyTask extends Task{
 	}
 
 	public String toString() {
-		return(super.toString() + ";" + company);
+		return(super.toString() + ";" + company.toString());
 	}	
 	
 }

@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Project {
 	private static ArrayList<User> users = new ArrayList<User>();
 	private static ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
-	private static ArrayList<UserTask> tasks = new ArrayList<UserTask>();
+	private static ArrayList<UserTask> userTasks = new ArrayList<UserTask>();
 	private static ArrayList<CompanyTask> companyTasks = new ArrayList<CompanyTask>();
 	private static User currentUser;
 	
@@ -73,9 +73,9 @@ public class Project {
 		do {
 			System.out.println("Geben Sie die Task-Id ein oder '0' um die Suche zu beenden\nEingabe:");
 			id = scan.nextInt();
-			for(int i = 0; i < tasks.size(); i++) {
-				if(tasks.get(i).getId() == id) {
-					tmp = tasks.get(i);
+			for(int i = 0; i < userTasks.size(); i++) {
+				if(userTasks.get(i).getId() == id) {
+					tmp = userTasks.get(i);
 					taskFound = true;
 				}
 			}
@@ -99,9 +99,9 @@ public class Project {
 		do {
 			System.out.println("Geben Sie die Task-Id ein oder '0' um die Suche zu beenden\nEingabe:");
 			id = scan.nextInt();
-			for(int i = 0; i < tasks.size(); i++) {
-				if(tasks.get(i).getId() == id) {
-					tmp = tasks.get(i);
+			for(int i = 0; i < userTasks.size(); i++) {
+				if(userTasks.get(i).getId() == id) {
+					tmp = userTasks.get(i);
 					taskFound = true;
 				}
 			}
@@ -183,8 +183,8 @@ public class Project {
 	}
 	
 	public static void printAllTasks() {
-		for(int i = 0; i < tasks.size(); i++) {
-			tasks.get(i).printTask();
+		for(int i = 0; i < userTasks.size(); i++) {
+			userTasks.get(i).printTask();
 		}
 	}
 	
@@ -202,9 +202,9 @@ public class Project {
 	
 	public static float calculateAlreadyPaidCosts(){
 		float sum = 0; 
-		for(int i = 0; i < tasks.size(); i++) {
-			if(tasks.get(i).getCosts().isAlreadyPaid()){
-				sum += tasks.get(i).getCosts().getAmount();
+		for(int i = 0; i < userTasks.size(); i++) {
+			if(userTasks.get(i).getCosts().isAlreadyPaid()){
+				sum += userTasks.get(i).getCosts().getAmount();
 			}
 		}
 		for(int i = 0; i < companyTasks.size(); i++) {
@@ -217,9 +217,9 @@ public class Project {
 	
 	public static float calculateUpcomingCosts(){
 		float sum = 0; 
-		for(int i = 0; i < tasks.size(); i++) {
-			if(!tasks.get(i).getCosts().isAlreadyPaid()){
-				sum += tasks.get(i).getCosts().getAmount();
+		for(int i = 0; i < userTasks.size(); i++) {
+			if(!userTasks.get(i).getCosts().isAlreadyPaid()){
+				sum += userTasks.get(i).getCosts().getAmount();
 			}
 		}
 		for(int i = 0; i < companyTasks.size(); i++) {
@@ -254,7 +254,8 @@ public class Project {
 		try {
 			FileWriter sponsorEntryFileWriter = new FileWriter("SponsorEntry.csv");
 			FileWriter userFileWriter = new FileWriter("UserFile.csv");
-			FileWriter taskFileWriter = new FileWriter("TaskFile.csv");
+			FileWriter userTaskFileWriter = new FileWriter("UserTaskFile.csv");
+			FileWriter companyTaskFileWriter = new FileWriter("CompanyTaskFile.csv");
 			
 			BufferedWriter writeFile = null;
 			
@@ -282,10 +283,19 @@ public class Project {
 			
 			writeFile.close();
 			
-			writeFile = new BufferedWriter(taskFileWriter);
+			writeFile = new BufferedWriter(userTaskFileWriter);
 			
-			for(int i = 0; i < tasks.size(); i++) {	
-				writeFile.write(tasks.get(i).toString());
+			for(int i = 0; i < userTasks.size(); i++) {	
+				writeFile.write(userTasks.get(i).toString());
+				writeFile.newLine();
+			}
+			
+			writeFile.close();
+			
+			writeFile = new BufferedWriter(companyTaskFileWriter);
+			
+			for(int i = 0; i < companyTasks.size(); i++) {	
+				writeFile.write(companyTasks.get(i).toString());
 				writeFile.newLine();
 			}
 			
@@ -300,7 +310,8 @@ public class Project {
 		try {
 			FileReader sponsorEntryReader = new FileReader("SponsorEntry.csv");
 			FileReader userReader = new FileReader("UserFile.csv");
-			FileReader tasksReader = new FileReader("TaskFile.csv");
+			FileReader userTaskReader = new FileReader("UserTaskFile.csv");
+			FileReader companyTaskReader = new FileReader("CompanyTaskFile.csv");
 			String readString;
 			String data[] = null;
 			
@@ -337,13 +348,39 @@ public class Project {
 			
 			readFile.close();
 			
-			readFile = new BufferedReader(tasksReader);
+			readFile = new BufferedReader(userTaskReader);
 			while((readString = readFile.readLine()) != null) {
 				data = readString.split(";");
-				int id = Integer.valueOf(data[4]);
-				User userData = new User(data[0], data[1], data[2], data[3]);
-				userData.setId(id);
-				users.add(userData);
+				int id = Integer.valueOf(data[0]);
+				Costs c = new Costs(Float.valueOf(data[4]), Boolean.valueOf(data[5]));
+				User u = new User(data[6], data[7], data[8], data[9]);
+				int counter = 0;
+				for(int i = 0; i < users.size(); i++) {
+					if(users.get(i).toString().equals(u.toString())) {
+						break;
+					}
+					counter++;
+				}
+				
+				UserTask ut = new UserTask(data[1], data[2], Boolean.valueOf(data[3]), c, users.get(counter));
+				ut.setId(id);
+				
+				userTasks.add(ut);
+			}
+			
+			readFile.close();
+			
+			readFile = new BufferedReader(companyTaskReader);
+			while((readString = readFile.readLine()) != null) {
+				data = readString.split(";");
+				int id = Integer.valueOf(data[0]);
+				Costs cost = new Costs(Float.valueOf(data[4]), Boolean.valueOf(data[5]));
+				Company comp = new Company(data[6], data[7], data[8], data[9]);
+				
+				CompanyTask ct = new CompanyTask(data[1], data[2], Boolean.valueOf(data[3]), cost, comp);
+				ct.setId(id);
+				
+				companyTasks.add(ct);
 			}
 			
 			readFile.close();
@@ -355,15 +392,15 @@ public class Project {
 	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
-		/*
+		
 		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
 		Admin grualea = new Admin("Alex", "Gruber", "grualea", "83f32");
 		
 		users.add(mosjula);
 		users.add(grualea);
-		*/
 		
-		loadData();
+		
+		//loadData();
 		
 		boolean finished = false;
 
@@ -560,11 +597,11 @@ public class Project {
 	}
 
 	public static ArrayList<UserTask> getTasks() {
-		return tasks;
+		return userTasks;
 	}
 
 	public static void setTasks(ArrayList<UserTask> tasks) {
-		Project.tasks = tasks;
+		Project.userTasks = tasks;
 	}
 
 	public static ArrayList<CompanyTask> getCompanyTasks() {
