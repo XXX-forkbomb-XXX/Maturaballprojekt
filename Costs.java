@@ -21,7 +21,6 @@ public class Costs {
 		float amount = s.nextFloat();
 		String string;
 		boolean isAlreadyPaid = false;
-		string = s.next();
 		do {
 			System.out.printf("Bereits bezahlt[w/f]: ");
 			string = s.next();

@@ -18,7 +18,7 @@ public class UserTask extends Task{
 	
 	public static UserTask createUserTask() {
 		Task t = Task.createTask();
-		User user = User.createUser();
+		User user = Project.searchUser();
 		UserTask uT = new UserTask(t.getName(), t.getDescription(), t.isFinished(), t.getCosts(), user);
 		return uT;
 	}

@@ -66,9 +66,10 @@ public class Admin extends User{
 	public void addUserTask() {
 		UserTask tmp = new UserTask();
 		tmp = UserTask.createUserTask();
-		User u = tmp.getUser();
-		u.addTask(tmp);
-		Project.getUserTasks().add(tmp);
+		if(tmp.getId() != 0) {
+			tmp.getUser().addTask(tmp);
+			Project.getUserTasks().add(tmp);
+		}
 	}
 	
 	public void editUserTask(UserTask userTask) {
