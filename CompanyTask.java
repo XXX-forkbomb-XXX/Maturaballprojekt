@@ -34,7 +34,7 @@ public class CompanyTask extends Task{
 	public void changeCompany() {	
 		System.out.println("Geben Sie die Daten der neuen Firma ein:");
 		Company company = new Company();
-		company.createCompany();
+		company = Company.createCompany();
 				
 		Scanner scan = new Scanner(System.in);
 		String confirm;

@@ -65,7 +65,7 @@ public class Admin extends User{
 	
 	public void addUserTask() {
 		UserTask tmp = new UserTask();
-		tmp.createUserTask();
+		tmp = UserTask.createUserTask();
 		User u = tmp.getUser();
 		u.addTask(tmp);
 		Project.getUserTasks().add(tmp);
@@ -166,7 +166,7 @@ public class Admin extends User{
 	
 	public void addCompanyTask() {
 		CompanyTask t = new CompanyTask();
-		t.createCompanyTask();
+		t = CompanyTask.createCompanyTask();
 		Project.getCompanyTasks().add(t);
 	}
 	

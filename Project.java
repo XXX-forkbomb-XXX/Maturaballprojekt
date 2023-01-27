@@ -468,12 +468,14 @@ public class Project {
 									+ "\t2) Sponsoreintraege eines Benutzers ausgeben\n"
 									+ "\t3) Sponsoreintraege aller Benutzer ausgeben\n"
 									+ "\t4) Sponsoreintrag erstellen\n"
-									+ "\t5) Sponsoreintrag loeschen");
+									+ "\t5) Sponsoreintrag bearbeiten\n"
+									+ "\t6) Sponsoreintrag loeschen");
 						}else {
 							System.out.println("Was moechten Sie tun?\n"
 									+ "\t1) Sponsoreintraege ausgeben\n"
 									+ "\t2) Sponsoreintrag erstellen\n"
-									+ "\t3) Sponsoreintrag loeschen");								
+									+ "\t3) Sponsoreintrag bearbeiten\n"
+									+ "\t4) Sponsoreintrag loeschen");								
 						}
 						System.out.println("\t0) Exit\nEingabe: ");
 						auswahl2 = scan.nextInt();
