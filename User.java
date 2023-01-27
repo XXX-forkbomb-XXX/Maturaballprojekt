@@ -22,7 +22,7 @@ public class User {
 		this.firstname = firstname;
 		this.surname = surname;
 		this.username = username;
-		this.password = "Password";
+		this.password = password;
 		this.id = counterId;
 		counterId++;
 	}
@@ -36,14 +36,14 @@ public class User {
 		String firstName = s.nextLine();
 		System.out.printf("Nachname: ");
 		String surName = s.nextLine();
-		System.out.printf("Nachname: ");
+		System.out.printf("Benutzername: ");
 		String username = s.nextLine();
 		do {
 			System.out.printf("Soll der User Adminstatus erhalten[w/f]: ");
 			string = s.next();
 			switch(string) {
-				case "w": User user = new User(firstName, surName, username, "Password"); return user; 
-				case "f": Admin admin = new Admin(firstName, surName, username, "Password"); return admin; 
+				case "w": Admin admin = new Admin(firstName, surName, username, "Password"); return admin; 
+				case "f": User user = new User(firstName, surName, username, "Password"); return user; 
 				default: System.out.println("Falsche Eingabe");
 			}
 		}while(!string.equals("w") && !string.equals("f"));
@@ -51,9 +51,15 @@ public class User {
 	}
 	
 	public void printUser() {
+		if(this instanceof Admin) {
+			System.out.println("Status: Admin");
+		}else {
+			System.out.println("Status: User");
+		}
 		System.out.println("ID: " + this.getId() + "\n"
 				+ "Benutzername: " + this.getUsername() + "\n"
 				+ "Name: " + this.getFirstname() + " " + this.getSurname() + "\n");
+
 	}
 
 	public void addTask(Task t) {
@@ -116,13 +122,15 @@ public class User {
 	public void resetPassword() { // 21.12
 		String password,passwordA, passwordW;
 		Scanner scan = new Scanner(System.in);
-		do {
-			System.out.println("Altes Passwort\nEingabe: ");
-			passwordA = scan.nextLine();
-			if(!passwordA.equals(this.getPassword())) {
-				System.out.println("Falsches Passwort");
-			}
-		}while(!passwordA.equals(this.getPassword()));
+		if(!this.getPassword().equals("Password")) {
+			do {
+				System.out.println("Altes Passwort\nEingabe: ");
+				passwordA = scan.nextLine();
+				if(!passwordA.equals(this.getPassword())) {
+					System.out.println("Falsches Passwort");
+				}
+			}while(!passwordA.equals(this.getPassword()));
+		}
 		do {
 			do {
 				System.out.println("Neues Passwort\nEingabe: ");
@@ -131,7 +139,7 @@ public class User {
 					System.out.println("Das Passwort stimmt nicht mit folgender Regex ueberein:\n"
 							+ "\tDas Passwort muss mindestens eine Zahl enthalten\n"
 							+ "\tDas Passwort muss mindestens einen Großbuchstaben, sowie eine Kleinbuchstaben enthalten\n"
-							+ "\tDas Passwort muss ein Sonderzeichen enthalten"
+							+ "\tDas Passwort muss ein Sonderzeichen enthalten\n"
 							+ "\tDas Passwort muss eine Laenge von 8 bis 20 Zeichen besitzen");
 				}
 			}while(!controlRegex(password));

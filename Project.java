@@ -90,33 +90,6 @@ public class Project {
 		return tmp;
 	}
 	
-	/*
-	public static Task searchTask(User u) {
-		Scanner scan = new Scanner(System.in);
-		Task tmp = new Task();
-		boolean taskFound = false;
-		int id;
-		do {
-			System.out.println("Geben Sie die Task-Id ein oder '0' um die Suche zu beenden\nEingabe:");
-			id = scan.nextInt();
-			for(int i = 0; i < userTasks.size(); i++) {
-				if(userTasks.get(i).getId() == id) {
-					tmp = userTasks.get(i);
-					taskFound = true;
-				}
-			}
-			if(!taskFound && id != 0) {
-				System.out.println("Aufgabe wurde nicht gefunden");
-			}
-		}while(!taskFound && id != 0);	
-		if(id == 0) {
-			tmp.setId(0);
-			return tmp;
-		}
-		return tmp;
-	}
-	*/
-	
 	public static CompanyTask searchCompanyTask() {
 		Scanner scan = new Scanner(System.in);
 		CompanyTask tmp = new CompanyTask();
@@ -147,7 +120,7 @@ public class Project {
 		boolean correct = false;
 		String password = "";
 		for(int i = 0; i < 5 & !correct & !password.equals("exit"); i++) {
-			System.out.println("Geben Sie das Passwort ein\nEingabe:");
+			System.out.println("Geben Sie das Passwort ein oder 'exit' um die Eingabe zu beenden\nEingabe:");
 			password = scan.nextLine();
 			if(tmp.getPassword().equals(password)) {
 				correct = true;
@@ -164,9 +137,13 @@ public class Project {
 		Scanner scan = new Scanner(System.in);
 		User tmp = new User();
 		boolean correct = false;
+		String password;
 		
 		do{
 			tmp = searchUser();
+			if(tmp.getPassword().equals("Password")) {
+				tmp.resetPassword();
+			}
 			if(!(tmp.getId() == 0)) {
 				correct = checkPassword(tmp);
 			}
@@ -312,6 +289,7 @@ public class Project {
 			FileReader userReader = new FileReader("UserFile.csv");
 			FileReader userTaskReader = new FileReader("UserTaskFile.csv");
 			FileReader companyTaskReader = new FileReader("CompanyTaskFile.csv");
+			
 			String readString;
 			String data[] = null;
 			
@@ -361,25 +339,25 @@ public class Project {
 					}
 					counter++;
 				}
-				
+
 				UserTask ut = new UserTask(data[1], data[2], Boolean.valueOf(data[3]), c, users.get(counter));
 				ut.setId(id);
-				
+
 				userTasks.add(ut);
 			}
-			
+
 			readFile.close();
-			
+
 			readFile = new BufferedReader(companyTaskReader);
 			while((readString = readFile.readLine()) != null) {
 				data = readString.split(";");
 				int id = Integer.valueOf(data[0]);
 				Costs cost = new Costs(Float.valueOf(data[4]), Boolean.valueOf(data[5]));
 				Company comp = new Company(data[6], data[7], data[8], data[9]);
-				
+
 				CompanyTask ct = new CompanyTask(data[1], data[2], Boolean.valueOf(data[3]), cost, comp);
 				ct.setId(id);
-				
+
 				companyTasks.add(ct);
 			}
 			
@@ -393,14 +371,7 @@ public class Project {
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
 		
-		Admin mosjula = new Admin("Julian", "Moser", "mosjula", "8362");
-		Admin grualea = new Admin("Alex", "Gruber", "grualea", "83f32");
-		
-		users.add(mosjula);
-		users.add(grualea);
-		
-		
-		//loadData();
+		loadData();
 		
 		boolean finished = false;
 
@@ -596,12 +567,12 @@ public class Project {
 		Project.sponsorEntries = sponsorEntries;
 	}
 
-	public static ArrayList<UserTask> getTasks() {
+	public static ArrayList<UserTask> getUserTasks() {
 		return userTasks;
 	}
 
-	public static void setTasks(ArrayList<UserTask> tasks) {
-		Project.userTasks = tasks;
+	public static void setUserTasks(ArrayList<UserTask> userTasks) {
+		Project.userTasks = userTasks;
 	}
 
 	public static ArrayList<CompanyTask> getCompanyTasks() {
