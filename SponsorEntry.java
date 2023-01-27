@@ -25,7 +25,7 @@ public class SponsorEntry {
 		Scanner s = new Scanner(System.in);
 		
 		Company company = new Company();
-		company.createCompany();
+		company = Company.createCompany();
 		this.setCompany(company);
 		this.user = Project.getCurrentUser();
 		System.out.printf("Daten des Sponsoreintrags: \nMenge: ");
