@@ -41,14 +41,14 @@ public class UserTask extends Task{
 		switch(confirm) {
 			case "w": 
 				User oldUser = this.getUser();
-				for(int i = 0; i < oldUser.getTasks().size(); i++) {
-					if(oldUser.getTasks().get(i) == this) {
-						oldUser.getTasks().set(i, null);
-						oldUser.getTasks().remove(i);
+				for(int i = 0; i < oldUser.getUserTasks().size(); i++) {
+					if(oldUser.getUserTasks().get(i) == this) {
+						oldUser.getUserTasks().set(i, null);
+						oldUser.getUserTasks().remove(i);
 					}
 				}
 				this.setUser(user); 
-				user.addTask(this);
+				user.addUserTask(this);
 				System.out.println("Der Verantwortlichen Benutzer wurde auf '" + this.getUser().getFirstname() + " " + this.getUser().getSurname() + ")' geandert"); 
 				break;
 			case "f": break;

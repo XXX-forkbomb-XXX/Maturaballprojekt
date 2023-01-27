@@ -11,7 +11,7 @@ public class User {
 	private int id;
 	private static int counterId = 1000; 
 	private ArrayList<SponsorEntry> sponsorEntries = new ArrayList<SponsorEntry>();
-	private ArrayList<Task> tasks = new ArrayList<Task>();
+	private ArrayList<UserTask> userTasks = new ArrayList<UserTask>();
 	
 	public User() {
 		this.id = counterId;
@@ -38,15 +38,20 @@ public class User {
 		String surName = s.nextLine();
 		System.out.printf("Benutzername: ");
 		String username = s.nextLine();
-		do {
-			System.out.printf("Soll der User Adminstatus erhalten[w/f]: ");
-			string = s.next();
-			switch(string) {
-				case "w": Admin admin = new Admin(firstName, surName, username, "Password"); return admin; 
-				case "f": User user = new User(firstName, surName, username, "Password"); return user; 
-				default: System.out.println("Falsche Eingabe");
-			}
-		}while(!string.equals("w") && !string.equals("f"));
+		if(Project.getUsers().size() != 0) {
+			do {
+				System.out.printf("Soll der User Adminstatus erhalten[w/f]: ");
+				string = s.next();
+				switch(string) {
+					case "w": Admin admin = new Admin(firstName, surName, username, "Password"); return admin; 
+					case "f": User user = new User(firstName, surName, username, "Password"); return user; 
+					default: System.out.println("Falsche Eingabe");
+				}
+			}while(!string.equals("w") && !string.equals("f"));
+		}else {
+			Admin admin = new Admin(firstName, surName, username, "Password");
+			return admin;
+		}
 		return null;
 	}
 	
@@ -62,13 +67,13 @@ public class User {
 
 	}
 
-	public void addTask(Task t) {
-		tasks.add(t);
+	public void addUserTask(UserTask t) {
+		userTasks.add(t);
 	}
 	
-	public void printTasks() {
-		for(int i = 0; i < tasks.size(); i++) {
-			tasks.get(i).printTask();
+	public void printUserTasks() {
+		for(int i = 0; i < userTasks.size(); i++) {
+			userTasks.get(i).printUserTask();
 		}
 	}
 	
@@ -77,6 +82,46 @@ public class User {
 		se.createSponsorEntry();
 		sponsorEntries.add(se);
 		Project.getSponsorEntries().add(se);
+	}
+	
+	public void editSponsorEntry(SponsorEntry sponsorEntry) {
+		Scanner scan = new Scanner(System.in);
+		String confirm;
+		if(sponsorEntry.getId() == 0) {
+			return;
+		}
+		int auswahl = 0;
+		do {
+			sponsorEntry.printSponsorEntry();;
+			System.out.println("Was moechten Sie aendern?\n"
+					+ "\t1) Benutzer\n"
+					+ "\t2) Firma\n"
+					+ "\t3) Menge\n"		
+					+ "\t0) Exit\nEingabe: ");
+			auswahl = scan.nextInt();
+			scan.nextLine();
+			switch(auswahl) {
+				case 1: 
+					sponsorEntry.changeUser();
+					break;
+				case 2:
+					sponsorEntry.changeCompany();
+					break;
+				case 3: 
+					System.out.println("Geben Sie die neuen Menge ein\nEingabe:");
+					float amount = scan.nextFloat();
+					System.out.println("Moechten Sie die Menge von '" + sponsorEntry.getAmount() + "' zu '" + amount + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": sponsorEntry.setAmount(amount); System.out.println("Menge wurde zu '" + amount + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 0: break;
+				default: System.out.println("Falsche Eingabe"); break;
+			}
+		}while(auswahl != 0);
 	}
 	
 	public void deleteSponsorEntry() {
@@ -194,12 +239,12 @@ public class User {
 	}
 
 
-	public ArrayList<Task> getTasks() {
-		return tasks;
+	public ArrayList<UserTask> getUserTasks() {
+		return userTasks;
 	}
 
-	public void setTasks(ArrayList<Task> tasks) {
-		this.tasks = tasks;
+	public void setUserTasks(ArrayList<UserTask> userTasks) {
+		this.userTasks = userTasks;
 	}
 
 	public ArrayList<SponsorEntry> getSponsorEntries() { //21.12

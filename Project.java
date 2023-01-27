@@ -161,7 +161,7 @@ public class Project {
 	
 	public static void printAllTasks() {
 		for(int i = 0; i < userTasks.size(); i++) {
-			userTasks.get(i).printTask();
+			userTasks.get(i).printUserTask();
 		}
 	}
 	
@@ -376,6 +376,14 @@ public class Project {
 		boolean finished = false;
 
 		while(finished == false) {
+			if(users.size() == 0) {
+				System.out.println("Willkommen!\nDrücken Sie [Enter] um das Programm zu starten:");
+				scan.nextLine();
+				System.out.println("Geben Sie ihre Daten ein:");
+				Admin admin = new Admin(null, null, null, null);
+				admin.creatUser();
+				currentUser = (Admin) Project.getUsers().get(0);
+			}
 			currentUser = logIn();
 			int auswahl;
 			int auswahl2;
@@ -412,8 +420,8 @@ public class Project {
 
 							if(currentUser instanceof Admin) {
 								switch(auswahl2) {
-									case 1: currentUser.printTasks(); break;
-									case 2: searchUser().printTasks(); break;
+									case 1: currentUser.printUserTasks(); break;
+									case 2: searchUser().printUserTasks(); break;
 									case 3: printAllTasks(); break;
 									case 4: ((Admin) currentUser).addUserTask(); break;
 									case 5: ((Admin) currentUser).editUserTask(Project.searchUserTask()); break;
@@ -423,7 +431,7 @@ public class Project {
 								}									
 							}else{
 								switch(auswahl2) {
-									case 1: currentUser.printTasks(); break;
+									case 1: currentUser.printUserTasks(); break;
 									case 0: break;
 									default: System.out.println("Falsche Eingabe");
 								}
@@ -485,7 +493,8 @@ public class Project {
 								case 2: searchUser().printSponsorEntries(); break;
 								case 3: printAllSponsorEntries(); break;
 								case 4: currentUser.addSponsorEntry(); break;
-								case 5: currentUser.deleteSponsorEntry(); break;
+								case 5: currentUser.editSponsorEntry(Project.searchSponsorEntry(currentUser));
+								case 6: currentUser.deleteSponsorEntry(); break;
 								case 0: break;
 								default: System.out.println("Falsche Eingabe");
 							}
@@ -493,7 +502,8 @@ public class Project {
 							switch(auswahl2) {
 								case 1: currentUser.printSponsorEntries(); break;
 								case 2: currentUser.addSponsorEntry(); break;
-								case 3: currentUser.deleteSponsorEntry(); break;
+								case 3: currentUser.editSponsorEntry(Project.searchSponsorEntry(currentUser));
+								case 4: currentUser.deleteSponsorEntry(); break;
 								case 0: break;
 								default: System.out.println("Falsche Eingabe");
 							}

@@ -42,6 +42,53 @@ public class SponsorEntry {
 				+ "Verantwortlicher User: " + this.user.getFirstname() + " " + this.user.getSurname() + " (" + this.user.getUsername() + ")\n"
 				+ "Betrag: " + this.amount + "\n");
 	}
+	
+	public void changeUser() {	
+		System.out.println("Geben Sie die neuen Verantwortliche Benutzer ein");
+		User user = Project.searchUser();
+		if(user.getId() == 0) {
+			return;
+		}
+		Scanner scan = new Scanner(System.in);
+		String confirm;
+		System.out.println("Moechten Sie den Verantwortlichen Benutzer von '" + this.getUser().getFirstname() + " " + this.getUser().getSurname() + " (" + this.getUser().getUsername() + ")' zu " + user.getFirstname() + " " + user.getSurname() + " (" + user.getUsername() + ")' aendern[w/f]");
+		confirm = scan.nextLine();
+		switch(confirm) {
+			case "w": 
+				User oldUser = this.getUser();
+				for(int i = 0; i < oldUser.getUserTasks().size(); i++) {
+					if(oldUser.getSponsorEntries().get(i) == this) {
+						oldUser.getSponsorEntries().set(i, null);
+						oldUser.getSponsorEntries().remove(i);
+					}
+				}
+				this.setUser(user); 
+				user.getSponsorEntries().add(this);
+				System.out.println("Der Verantwortlichen Benutzer wurde auf '" + this.getUser().getFirstname() + " " + this.getUser().getSurname() + ")' geandert"); 
+				break;
+			case "f": break;
+			default: System.out.println("Falsche Eingabe"); break;
+		}
+	}
+	
+	public void changeCompany() {	
+		System.out.println("Geben Sie die Daten der neuen Firma ein:");
+		Company company = new Company();
+		company = Company.createCompany();
+				
+		Scanner scan = new Scanner(System.in);
+		String confirm;
+		System.out.println("Moechten Sie die Firma von '" + this.getCompany() + "' zu " + company.getName() + "' aendern[w/f]");
+		confirm = scan.nextLine();
+		switch(confirm) {
+			case "w": 
+				this.setCompany(company);
+				System.out.println("Die Firma wurde auf '" + this.getCompany() + "' geandert"); 
+				break;
+			case "f": break;
+			default: System.out.println("Falsche Eingabe"); break;
+		}
+	}
 
 	public int getId() {
 		return id;

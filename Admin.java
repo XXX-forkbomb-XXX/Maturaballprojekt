@@ -47,9 +47,9 @@ public class Admin extends User{
 				}
 			}
 		}
-		for(int i = 0; i < u.getTasks().size(); i++) {
+		for(int i = 0; i < u.getUserTasks().size(); i++) {
 			for(int j = 0; i < Project.getUserTasks().size(); j++) {
-				if(Project.getUserTasks().get(j).equals(u.getTasks().get(i))) {
+				if(Project.getUserTasks().get(j).equals(u.getUserTasks().get(i))) {
 					Project.getUserTasks().remove(j);
 				}
 			}
@@ -67,7 +67,7 @@ public class Admin extends User{
 		UserTask tmp = new UserTask();
 		tmp = UserTask.createUserTask();
 		if(tmp.getId() != 0) {
-			tmp.getUser().addTask(tmp);
+			tmp.getUser().addUserTask(tmp);
 			Project.getUserTasks().add(tmp);
 		}
 	}
@@ -155,10 +155,10 @@ public class Admin extends User{
 			}
 		}
 		
-		for(int i = 0; i < u.getTasks().size(); i++) {
-			if(u.getTasks().get(i) == t) {
-				u.getTasks().set(i, null);
-				u.getTasks().remove(i);
+		for(int i = 0; i < u.getUserTasks().size(); i++) {
+			if(u.getUserTasks().get(i) == t) {
+				u.getUserTasks().set(i, null);
+				u.getUserTasks().remove(i);
 			}
 		}
 		
