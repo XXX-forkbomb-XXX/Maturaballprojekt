@@ -32,13 +32,105 @@ public class Admin extends User{
 		Project.getUsers().add(user);
 	}
 	
-	public void deleteUser() { // 21.12
-		User u = Project.searchUser();
-		if(u.getId() == 0) {
+	public void editUser(User user) {
+		Scanner scan = new Scanner(System.in);
+		String confirm;
+		if(user.getId() == 0) {
 			return;
 		}
-		if(u == this) {
-			Project.setCurrentUser(null);
+		int auswahl = 0;
+		do {
+			user.printUser();
+			System.out.println("Was moechten Sie aendern?\n"
+					+ "\t1) Vorname\n"
+					+ "\t2) Nachname\n"
+					+ "\t3) Benutzername\n"
+					+ "\t4) Passwort\n"
+					+ "\t5) Status\n"		
+					+ "\t0) Exit\nEingabe: ");
+			auswahl = scan.nextInt();
+			scan.nextLine();
+			switch(auswahl) {
+				case 1: 
+					System.out.println("Geben Sie den neuen Vornamen ein\nEingabe:");
+					String firstname = scan.nextLine();
+					System.out.println("Moechten Sie den Vornamen von '" + user.getFirstname() + "' zu '" + firstname + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": user.setFirstname(firstname); System.out.println("Vorname wurde zu '" + firstname + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 2:
+					System.out.println("Geben Sie den neuen Nachnamen ein\nEingabe:");
+					String surname = scan.nextLine();
+					System.out.println("Moechten Sie den Nachnamen von '" + user.getSurname() + "' zu '" + surname + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": user.setSurname(surname); System.out.println("Nachname wurde zu '" + surname + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 3:
+					System.out.println("Geben Sie den neuen Benutzernamen ein\nEingabe:");
+					String username = scan.nextLine();
+					System.out.println("Moechten Sie den Benutzernamen von '" + user.getUsername() + "' zu '" + username + "' aendern[w/f]");
+					confirm = scan.nextLine();
+					switch(confirm) {
+						case "w": user.setUsername(username); System.out.println("Benutzername wurde zu '" + username + "' geandert"); break;
+						case "f": break;
+						default: System.out.println("Falsche Eingabe"); break;
+					}
+					break;
+				case 4: user.resetPassword();
+				case 5: 
+					String adminS;
+					do {
+						System.out.println("Soll der Benutzer Adminrechte haben[w/f]?\nEingabe:");
+						adminS = scan.nextLine();
+						switch(adminS) {
+							case "w": 
+								System.out.println("Moechten Sie den User '" + user.getFirstname() + " " + user.getSurname() + " (" + user.getUsername() + ")' Adminrechte erteilen[w/f]");
+								confirm = scan.nextLine();
+								switch(confirm) {
+									case "w": user.toAdmin(); System.out.println("Der Benutzer hat Adminrechte erhalten"); break;
+									case "f": break;
+									default: System.out.println("Falsche Eingabe"); break;
+								}
+								break;
+							case "f":
+								System.out.println("Moechten Sie den User '" + user.getFirstname() + " " + user.getSurname() + " (" + user.getUsername() + ")' Adminrechte entziehen[w/f]");
+								confirm = scan.nextLine();
+								switch(confirm) {
+									case "w": user.toUser(); System.out.println("Dem Benutzer wurden Adminrechte entzogen"); break;
+									case "f": break;
+									default: System.out.println("Falsche Eingabe"); break;
+								}
+								break;
+							default: System.out.println("Falsche Eingabe"); break;
+						}
+					}while(!adminS.equals("w") && !adminS.equals("f"));
+				case 0: break;
+				default: System.out.println("Falsche Eingabe"); break;
+			}
+		}while(auswahl != 0);
+	}
+	
+	public static void deleteUser(User u) {
+		int adminCounter = 0;
+		for(int i = 0; i < Project.getUsers().size(); i++) {
+			if(Project.getUsers().get(i) instanceof Admin) {
+				adminCounter++;
+			}
+		}
+		if(u instanceof Admin & adminCounter < 2) {
+			System.out.println("Ein Admin wird mindestens benötigt");
+			return;
+		}
+		if(u.getId() == 0) {
+			return;
 		}
 		for(int i = 0; i < u.getSponsorEntries().size(); i++) {
 			for(int j = 0; i < Project.getSponsorEntries().size(); j++) {

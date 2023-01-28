@@ -542,13 +542,15 @@ public class Project {
 							System.out.println(""
 									+ "\t1) Alle Benutzer ausgeben\n"
 									+ "\t2) Benutzer erstellen\n"
-									+ "\t3) Benutzer loeschen\n"
+									+ "\t3) Benutzer bearbeiten\n"
+									+ "\t4) Benutzer loeschen\n"
 									+ "\t0) Exit\nEingabe: ");
 							auswahl2 = scan.nextInt();
 							switch(auswahl2) {
 								case 1: printUsers(); break;
 								case 2: ((Admin) currentUser).creatUser(); break;
-								case 3: ((Admin) currentUser).deleteUser(); break;
+								case 3: ((Admin) currentUser).editUser(searchUser()); break;
+								case 4: Admin.deleteUser(Project.searchUser()); break;
 								case 0: break;
 								default: System.out.println("Falsche Eingabe"); break;
 							}

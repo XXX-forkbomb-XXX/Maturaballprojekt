@@ -258,5 +258,62 @@ public class User {
 	public String toString() {
 		return(firstname + ";" + surname + ";" + username + ";" + password + ";" + id);
 	}
+	
+	public boolean isAdmin() {
+		if(this instanceof Admin) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public void toAdmin() {
+		Admin admin = new Admin(this.getFirstname(), this.getSurname(), this.getUsername(), this.getPassword());
+		admin.setId(this.getId());
+		admin.setSponsorEntries(this.getSponsorEntries());
+		admin.setUserTasks(this.getUserTasks());
+		for(int i = 0; i < Project.getSponsorEntries().size(); i++) {
+			if(Project.getSponsorEntries().get(i).getUser().equals(this)){
+				Project.getSponsorEntries().get(i).setUser(admin);
+			}
+		}
+		for(int i = 0; i < Project.getUserTasks().size(); i++) {
+			if(Project.getUserTasks().get(i).getUser().equals(this)){
+				Project.getUserTasks().get(i).setUser(admin);
+			}
+		}		
+		Admin.deleteUser(this);
+		Project.getUsers().add(admin);
+	}
+	
+	public void toUser() {
+		int adminCounter = 0;
+		for(int i = 0; i < Project.getUsers().size(); i++) {
+			if(Project.getUsers().get(i) instanceof Admin) {
+				adminCounter++;
+			}
+		}
+		if(adminCounter > 1) {
+			User user = new User(this.getFirstname(), this.getSurname(), this.getUsername(), this.getPassword());
+			user.setId(this.getId());
+			user.setSponsorEntries(this.getSponsorEntries());
+			user.setUserTasks(this.getUserTasks());
+			for(int i = 0; i < Project.getSponsorEntries().size(); i++) {
+				if(Project.getSponsorEntries().get(i).getUser().equals(this)){
+					Project.getSponsorEntries().get(i).setUser(user);
+				}
+			}
+			for(int i = 0; i < Project.getUserTasks().size(); i++) {
+				if(Project.getUserTasks().get(i).getUser().equals(this)){
+					Project.getUserTasks().get(i).setUser(user);
+				}
+			}	
+			Admin.deleteUser(this);
+			Project.getUsers().add(user);
+		}else {
+			System.out.println("Ein Admin wird mindestens benötigt");
+		}
+			
+	}
 
 }
