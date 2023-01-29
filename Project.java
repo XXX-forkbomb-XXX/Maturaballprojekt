@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;  
+import java.time.LocalDateTime; 
 
 
 public class Project {
@@ -227,9 +229,8 @@ public class Project {
 	}
 	
 	public static void fillFiles() {
-		System.out.println(" ");
 		try {
-			FileWriter sponsorEntryFileWriter = new FileWriter("SponsorEntry.csv");
+			FileWriter sponsorEntryFileWriter = new FileWriter("SponsorEntryFile.csv");
 			FileWriter userFileWriter = new FileWriter("UserFile.csv");
 			FileWriter userTaskFileWriter = new FileWriter("UserTaskFile.csv");
 			FileWriter companyTaskFileWriter = new FileWriter("CompanyTaskFile.csv");
@@ -285,7 +286,7 @@ public class Project {
 	
 	public static void loadData() {
 		try {
-			FileReader sponsorEntryReader = new FileReader("SponsorEntry.csv");
+			FileReader sponsorEntryReader = new FileReader("SponsorEntryFile.csv");
 			FileReader userReader = new FileReader("UserFile.csv");
 			FileReader userTaskReader = new FileReader("UserTaskFile.csv");
 			FileReader companyTaskReader = new FileReader("CompanyTaskFile.csv");
@@ -294,19 +295,6 @@ public class Project {
 			String data[] = null;
 			
 			BufferedReader readFile = null;
-			
-			readFile = new BufferedReader(sponsorEntryReader);
-			while((readString = readFile.readLine()) != null) {
-				data = readString.split(";");
-				Company c = new Company(data[1], data[2], data[3], data[4]);
-				User u = new User(data[5], data[6], data[7], data[8]);
-				int id = Integer.valueOf(data[0]);
-				float amount = Float.valueOf(data[9]);
-				SponsorEntry sponsorData = new SponsorEntry(id, c, u, amount);
-				sponsorEntries.add(sponsorData);
-			}
-			
-			readFile.close();
 			
 			readFile = new BufferedReader(userReader);
 			while((readString = readFile.readLine()) != null) {
@@ -320,10 +308,30 @@ public class Project {
 					User user = new User(data[1], data[2], data[3], data[4]);
 					user.setId(id);
 					users.add(user);
-				}					
+				}				
+				
 			}
 			
+			readFile.close();			
 			
+			readFile = new BufferedReader(sponsorEntryReader);
+			while((readString = readFile.readLine()) != null) {
+				data = readString.split(";");
+				Company c = new Company(data[1], data[2], data[3], data[4]);
+				User u = new User(data[5], data[6], data[7], data[8]);
+				int id = Integer.valueOf(data[0]);
+				float amount = Float.valueOf(data[9]);
+				int position = 0;
+				for(int i = 0; i < users.size(); i++) {
+					if(users.get(i).getId() == u.getId()) {
+						position = i;
+					}
+				}
+				SponsorEntry sponsorData = new SponsorEntry(id, c, users.get(position), amount);
+				sponsorEntries.add(sponsorData);
+				sponsorData.getUser().getSponsorEntries().add(sponsorData);
+			}
+
 			readFile.close();
 			
 			readFile = new BufferedReader(userTaskReader);
@@ -332,22 +340,21 @@ public class Project {
 				int id = Integer.valueOf(data[0]);
 				Costs c = new Costs(Float.valueOf(data[4]), Boolean.valueOf(data[5]));
 				User u = new User(data[6], data[7], data[8], data[9]);
-				int counter = 0;
+				int position = 0;
 				for(int i = 0; i < users.size(); i++) {
-					if(users.get(i).toString().equals(u.toString())) {
-						break;
+					if(users.get(i).getId() == u.getId()) {
+						position = i;
 					}
-					counter++;
 				}
 
-				UserTask ut = new UserTask(data[1], data[2], Boolean.valueOf(data[3]), c, users.get(counter));
+				UserTask ut = new UserTask(data[1], data[2], Boolean.valueOf(data[3]), c, users.get(position));
 				ut.setId(id);
-
 				userTasks.add(ut);
+				ut.getUser().getUserTasks().add(ut);
 			}
 
 			readFile.close();
-			
+
 			readFile = new BufferedReader(companyTaskReader);
 			while((readString = readFile.readLine()) != null) {
 				data = readString.split(";");
@@ -360,9 +367,32 @@ public class Project {
 
 				companyTasks.add(ct);
 			}
-			
+
 			readFile.close();
 			
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static String getTimeStamp() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+		LocalDateTime now = LocalDateTime.now();  
+		return now.toString();
+	}
+	
+	public static void writeLogDatei(String message) {
+		try {
+			FileWriter logDateiFileWriter = new FileWriter("LogDateiFile.csv");
+			
+			BufferedWriter writeFile = null;
+			
+			writeFile = new BufferedWriter(logDateiFileWriter);
+			
+			writeFile.write("[" + getTimeStamp() + "]: " + message);
+			 
+			writeFile.close();
+	
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -371,8 +401,7 @@ public class Project {
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
 		
-		Admin a = new Admin("Alex", "Gruber", "grualea", "83f32");
-		users.add(a);
+		writeLogDatei("Das Programm wurde gestartet");
 		
 		loadData();
 		

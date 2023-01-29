@@ -123,7 +123,7 @@ public class SponsorEntry {
 	}
 
 	public String toString() {
-		return(id + ";" + company.toString() + user.toString() + ";" + amount );
+		return(id + ";" + company.toString() + ";" + user.toString() + ";" + amount );
 	}	
 	
 }
