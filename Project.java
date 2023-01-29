@@ -320,9 +320,9 @@ public class Project {
 					User user = new User(data[1], data[2], data[3], data[4]);
 					user.setId(id);
 					users.add(user);
-				}				
-				
+				}					
 			}
+			
 			
 			readFile.close();
 			
@@ -347,7 +347,7 @@ public class Project {
 			}
 
 			readFile.close();
-
+			
 			readFile = new BufferedReader(companyTaskReader);
 			while((readString = readFile.readLine()) != null) {
 				data = readString.split(";");
@@ -370,6 +370,9 @@ public class Project {
 	
 	public static void main (String []args) {
 		Scanner scan = new Scanner(System.in);
+		
+		Admin a = new Admin("Alex", "Gruber", "grualea", "83f32");
+		users.add(a);
 		
 		loadData();
 		
@@ -445,7 +448,7 @@ public class Project {
 						if (currentUser instanceof Admin) {
 							System.out.println(
 									"\t2) Firmenbezogene Aufgabe erstellen\n"
-									+ "3) Firmenbezogene Aufgabe bearbeiten\n"
+									+ "\t3) Firmenbezogene Aufgabe bearbeiten\n"
 									+ "\t4) Firmenbezogene Aufgabe loeschen");
 						}
 						System.out.println("\t0) Exit\nEingabe: ");
