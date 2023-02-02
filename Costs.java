@@ -59,7 +59,10 @@ public class Costs {
 					System.out.println("Moechten Sie die Menge von '" + this.getAmount() + "' zu '" + amount + "' aendern[w/f]");
 					confirm = scan.nextLine();
 					switch(confirm) {
-						case "w": this.setAmount(amount); System.out.println("Menge wurde zu '" + amount + "' geandert"); break;
+						case "w": 
+							this.setAmount(amount); 
+							System.out.println("Menge wurde zu '" + amount + "' geandert"); 
+							break;
 						case "f": break;
 						default: System.out.println("Falsche Eingabe"); break;
 					}

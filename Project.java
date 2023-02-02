@@ -36,8 +36,7 @@ public class Project {
 			}
 		}while(!userFound && !username.equals("0"));
 		if(username.equals("0")) {
-			tmp.setId(0);
-			return tmp;
+			return null;
 		}
 		return tmp;
 	}
@@ -142,7 +141,9 @@ public class Project {
 		String password;
 		
 		do{
-			tmp = searchUser();
+			do{
+				tmp = searchUser();
+			}while(tmp == null);
 			if(tmp.getPassword().equals("Password")) {
 				tmp.resetPassword();
 			}
@@ -165,6 +166,7 @@ public class Project {
 		for(int i = 0; i < userTasks.size(); i++) {
 			userTasks.get(i).printUserTask();
 		}
+		writeLogDatei("hat alle Aufgaben ausgegeben");
 	}
 	
 	public static void printAllCompanyTasks() {
@@ -383,15 +385,13 @@ public class Project {
 	
 	public static void writeLogDatei(String message) {
 		try {
-			FileWriter logDateiFileWriter = new FileWriter("LogDateiFile.csv");
-			
-			BufferedWriter writeFile = null;
-			
-			writeFile = new BufferedWriter(logDateiFileWriter);
-			
-			writeFile.write("[" + getTimeStamp() + "]: " + message);
-			 
-			writeFile.close();
+		    FileWriter logDateiFileWriter = new FileWriter("LogDateiFile.csv",true);
+		    if(currentUser == null) {
+		    	logDateiFileWriter.write("[" + getTimeStamp() + "]: " + message + "\n");
+		    }else {
+		    	logDateiFileWriter.write("[" + getTimeStamp() + "]: " + currentUser.toPrintString() + " "+ message + "\n");
+		    }
+		    logDateiFileWriter.close();
 	
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -412,11 +412,11 @@ public class Project {
 				System.out.println("Willkommen!\nDrücken Sie [Enter] um das Programm zu starten:");
 				scan.nextLine();
 				System.out.println("Geben Sie ihre Daten ein:");
-				Admin admin = new Admin(null, null, null, null);
-				admin.creatUser();
-				currentUser = (Admin) Project.getUsers().get(0);
+				currentUser = Admin.creatUser();
+				writeLogDatei("hat seinen Benutzer und ein Projekt erstellt");
 			}
 			currentUser = logIn();
+			writeLogDatei("hat sich angemeldet");
 			int auswahl;
 			int auswahl2;
 			do {

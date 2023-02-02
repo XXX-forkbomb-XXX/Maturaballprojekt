@@ -75,6 +75,11 @@ public class User {
 		for(int i = 0; i < userTasks.size(); i++) {
 			userTasks.get(i).printUserTask();
 		}
+		if(this == Project.getCurrentUser()) {
+			Project.writeLogDatei("hat seine Aufgaben ausgegeben");
+		}else {
+			Project.writeLogDatei("hat die Aufgaben von " + this.toPrintString() + "ausgegeben");
+		}
 	}
 	
 	public void addSponsorEntry() {
@@ -314,6 +319,9 @@ public class User {
 			System.out.println("Ein Admin wird mindestens benötigt");
 		}
 			
+	}
+	public String toPrintString() {
+		return this.getFirstname() + " " + this.getSurname() + " (" + this.getUsername() + ")";
 	}
 
 }

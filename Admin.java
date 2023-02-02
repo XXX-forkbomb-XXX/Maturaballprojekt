@@ -16,7 +16,7 @@ public class Admin extends User{
 		return alreadyExists;
 	}
 
-	public void creatUser() { //21.12
+	public static User creatUser() { //21.12
 		Scanner s = new Scanner(System.in);
 		User user = new User();
 		boolean correct = false;
@@ -30,6 +30,7 @@ public class Admin extends User{
 			}
 		}while(!correct);
 		Project.getUsers().add(user);
+		return user;
 	}
 	
 	public void editUser(User user) {
@@ -161,6 +162,7 @@ public class Admin extends User{
 		if(tmp.getId() != 0) {
 			tmp.getUser().addUserTask(tmp);
 			Project.getUserTasks().add(tmp);
+			Project.writeLogDatei("hat die Aufgabe " + tmp.toPrintString() + "erstellt");
 		}
 	}
 	
@@ -189,7 +191,11 @@ public class Admin extends User{
 					System.out.println("Moechten Sie den Namen von '" + userTask.getName() + "' zu '" + name + "' aendern[w/f]");
 					confirm = scan.nextLine();
 					switch(confirm) {
-						case "w": userTask.setName(name); System.out.println("Name wurde zu '" + name + "' geandert"); break;
+						case "w": 
+							Project.writeLogDatei("hat den Namen von " + userTask.toPrintString() + "von '" + userTask.getName() + "' zu '" + name + "' geandert");
+							userTask.setName(name); 
+							System.out.println("Name wurde zu '" + name + "' geandert"); 
+							break;
 						case "f": break;
 						default: System.out.println("Falsche Eingabe"); break;
 					}
@@ -200,7 +206,11 @@ public class Admin extends User{
 					System.out.println("Moechten Sie den Namen von '" + userTask.getDescription() + "' zu '" + description + "' aendern[w/f]");
 					confirm = scan.nextLine();
 					switch(confirm) {
-						case "w": userTask.setDescription(description); System.out.println("Beschreibung wurde zu '" + description + "' geandert"); break;
+						case "w": 
+							Project.writeLogDatei("hat die Beschreibung von " + userTask.toPrintString() + "von '" + userTask.getDescription() + "' zu '" + description + "' geandert");
+							userTask.setDescription(description); 
+							System.out.println("Beschreibung wurde zu '" + description + "' geandert"); 
+							break;
 						case "f": break;
 						default: System.out.println("Falsche Eingabe"); break;
 					}
@@ -220,13 +230,22 @@ public class Admin extends User{
 					System.out.println("Moechten Sie Fertig von '" + userTask.isFinished() + "' zu '" + finished + "' aendern[w/f]");
 					confirm = scan.nextLine();
 					switch(confirm) {
-						case "w": userTask.setFinished(finished); System.out.println("Fertig wurde zu '" + finished + "' geandert"); break;
+						case "w": 
+							Project.writeLogDatei("hat die Beschreibung von " + userTask.toPrintString() + "von '" + userTask.isFinished() + "' zu '" + finished + "' geandert");
+							userTask.setFinished(finished); 
+							System.out.println("Fertig wurde zu '" + finished + "' geandert"); break;
 						case "f": break;
 						default: System.out.println("Falsche Eingabe"); break;
 					}
 					break;
-				case 4: userTask.getCosts().editCosts(); break;
-				case 5: userTask.changeUser(); break;
+				case 4: 
+					Project.writeLogDatei("hat die Kosten von " + userTask.toPrintString() + " geandert");
+					userTask.getCosts().editCosts(); 
+					break;
+				case 5: 
+					Project.writeLogDatei("hat den Benutzer von " + userTask.toPrintString() + " geandert");
+					userTask.changeUser(); 
+					break;
 				case 0: break;
 				default: System.out.println("Falsche Eingabe"); break;
 			}
@@ -253,7 +272,8 @@ public class Admin extends User{
 				u.getUserTasks().remove(i);
 			}
 		}
-		
+
+		Project.writeLogDatei("hat die Aufgabe " + t.toPrintString() + "erstellt");
 		System.out.println("Aufgabe wurde geloescht");
 	}
 	

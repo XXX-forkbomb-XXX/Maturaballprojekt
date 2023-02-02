@@ -75,4 +75,8 @@ public class UserTask extends Task{
 	public String toString() {
 		return(super.toString() + ";" + user.toString());
 	}
+	
+	public String toPrintString() {
+		return this.getName() + " (" + this.getId() + ")";
+	}
 }
